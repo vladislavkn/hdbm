@@ -1,3 +1,15 @@
 import { createMuiTheme } from "@material-ui/core/styles";
+import { PaletteColorOptions } from "@material-ui/core/styles/createPalette";
 
-export default createMuiTheme();
+const primary: PaletteColorOptions = {
+  light: "#81A3FF",
+  main: "#638EFF",
+  dark: "#577CDD",
+  contrastText: "white",
+};
+
+export default createMuiTheme({
+  palette: {
+    primary,
+  },
+});
