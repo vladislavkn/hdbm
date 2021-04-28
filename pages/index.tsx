@@ -15,13 +15,12 @@ export default function Home() {
     <Layout paddingTop>
       <Grid container spacing={3}>
         {fakeWaysData.map((way) => (
-          <Grid item xs={6} sm={4} md={3}>
+          <Grid item xs={6} sm={4} md={3} key={way.id}>
             <WayCard
               title={way.title}
               text={way.text}
               href={way.href}
               imageUrl={way.imageUrl}
-              key={way.id}
             />
           </Grid>
         ))}
