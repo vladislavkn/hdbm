@@ -28,7 +28,7 @@ const Navigation = () => {
   const classes = useStyles();
 
   return (
-    <AppBar position="static" elevation={0} className={classes.appBar}>
+    <AppBar position="sticky" elevation={0} className={classes.appBar}>
       <Toolbar>
         <DrawerMenu />
         <Box className={classes.logo}>

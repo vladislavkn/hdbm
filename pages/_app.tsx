@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../theme";
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import Head from "next/head";
+import "@root/styles/globals.css";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;

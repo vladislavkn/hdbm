@@ -26,7 +26,7 @@ const routes: Route[] = [
   {
     text: "Войти",
     icon: PersonOutlined,
-    href: "/login",
+    href: "/auth/login",
   },
 ];
 
