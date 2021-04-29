@@ -5,7 +5,7 @@ const primary: PaletteColorOptions = {
   light: "#81A3FF",
   main: "#638EFF",
   dark: "#577CDD",
-  contrastText: "white",
+  contrastText: "#ffffff",
 };
 
 export default createMuiTheme({

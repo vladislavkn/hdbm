@@ -8,15 +8,19 @@ type LayoutProps = {
   title?: string;
   children?: ReactNode | ReactNode[];
   navigation?: () => JSX.Element;
-  paddingTop?: boolean;
+  smallTopPadding?: boolean;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     flexGrow: 1,
+    paddingBottom: theme.spacing(2),
   },
-  paddingTop: {
+  normalTopPadding: {
     paddingTop: theme.spacing(4),
+  },
+  smallTopPadding: {
+    paddingTop: theme.spacing(2),
   },
 }));
 
@@ -25,7 +29,7 @@ const Layout = (props: LayoutProps) => {
     title,
     children,
     navigation: CustomNavigation,
-    paddingTop = true,
+    smallTopPadding = false,
   } = props;
   const classes = useStyles();
 
@@ -38,7 +42,7 @@ const Layout = (props: LayoutProps) => {
       <Container
         className={joinClasses(
           classes.container,
-          paddingTop && classes.paddingTop
+          smallTopPadding ? classes.smallTopPadding : classes.normalTopPadding
         )}
       >
         {children}

@@ -3,13 +3,14 @@ import {
   Button,
   Card,
   CardContent,
-  InputAdornment,
+  Grid,
+  Link,
   makeStyles,
   TextField,
   Theme,
   Typography,
 } from "@material-ui/core";
-import { LockOpenOutlined, MailOutline } from "@material-ui/icons";
+import NextLink from "next/link";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -18,17 +19,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   title: {
     marginBottom: theme.spacing(4),
   },
-  emailInput: {
-    marginBottom: theme.spacing(4),
-  },
-  passwordInput: {
-    marginBottom: theme.spacing(5),
-  },
-  loginButton: {
-    marginBottom: theme.spacing(2),
+  input: {
+    width: "100%",
   },
   button: {
     width: "100%",
+  },
+  link: {
+    cursor: "pointer",
   },
 }));
 
@@ -41,47 +39,39 @@ const LoginForm = () => {
         <Typography className={classes.title} align="center" variant="h5">
           Войти в аккаунт
         </Typography>
-        <form>
-          <Box className={classes.emailInput}>
+        <Grid container spacing={3} component="form">
+          <Grid item xs={12}>
             <TextField
+              className={classes.input}
               variant="outlined"
               label="Email"
-              placeholder="example@mail.com"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MailOutline />
-                  </InputAdornment>
-                ),
-              }}
             />
-          </Box>
-          <Box className={classes.passwordInput}>
+          </Grid>
+          <Grid item xs={12}>
             <TextField
+              className={classes.input}
               variant="outlined"
               label="Пароль"
-              placeholder="qwerty123"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockOpenOutlined />
-                  </InputAdornment>
-                ),
-              }}
             />
-          </Box>
-          <Button
-            className={[classes.button, classes.loginButton].join(" ")}
-            color="primary"
-            variant="contained"
-            disableElevation
-          >
-            Войти
-          </Button>
-          <Button className={classes.button} color="primary" disableElevation>
-            Создать аккаунт
-          </Button>
-        </form>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              className={classes.button}
+              color="primary"
+              variant="contained"
+              disableElevation
+            >
+              Войти
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <NextLink href="/auth/register">
+              <Typography className={classes.link} align="center">
+                <Link>Создать аккаунт</Link>
+              </Typography>
+            </NextLink>
+          </Grid>
+        </Grid>
       </CardContent>
     </Card>
   );

@@ -17,8 +17,11 @@ type WayCardProps = {
 };
 
 const useStyles = makeStyles((_: Theme) => ({
+  root: {
+    maxWidth: 320,
+  },
   media: {
-    height: 140,
+    height: 180,
   },
 }));
 
@@ -28,7 +31,7 @@ const WayCard = (props: WayCardProps) => {
 
   return (
     <Link href={href}>
-      <Card elevation={0}>
+      <Card className={classes.root} elevation={0}>
         <CardActionArea>
           <CardMedia image={imageUrl} className={classes.media} />
           <CardContent>

@@ -1,6 +1,6 @@
 import Layout from "@components/Layout";
-import LoginForm from "@components/LoginForm";
-import { Grid, Box, makeStyles } from "@material-ui/core";
+import RegisterForm from "@components/RegisterForm";
+import { Box, Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
   center: {
@@ -8,11 +8,10 @@ const useStyles = makeStyles({
   },
   centeredItem: {
     maxWidth: 400,
-    flex: 1,
   },
 });
 
-const Login = () => {
+const Register = () => {
   const classes = useStyles();
 
   return (
@@ -24,11 +23,11 @@ const Login = () => {
         className={classes.center}
       >
         <Box className={classes.centeredItem}>
-          <LoginForm />
+          <RegisterForm />
         </Box>
       </Grid>
     </Layout>
   );
 };
 
-export default Login;
+export default Register;
