@@ -10,39 +10,49 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
+import createErrorMessages from "@root/lib/errorMessages";
 import NextLink from "next/link";
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    padding: theme.spacing(2, 2, 0, 2),
-  },
   title: {
     marginBottom: theme.spacing(2),
   },
-  input: {
-    width: "100%",
-  },
   label: {
     color: colors.grey[400],
-  },
-  button: {
-    width: "100%",
   },
   link: {
     cursor: "pointer",
   },
 }));
 
+const errorMessages = createErrorMessages({
+  minLength: 8,
+  maxLength: 32,
+});
+
 const RegisterForm = () => {
   const classes = useStyles();
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+  } = useForm({ mode: "onBlur" });
+
+  const onSubmit = (data) => console.log(data);
 
   return (
-    <Card className={classes.root} elevation={0}>
+    <Card elevation={0}>
       <CardContent>
         <Typography className={classes.title} align="center" variant="h5">
           Создать аккаунт
         </Typography>
-        <Grid container component="form" spacing={2}>
+        <Grid
+          container
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          spacing={2}
+        >
           <Grid item xs={12}>
             <Typography
               className={classes.label}
@@ -56,14 +66,31 @@ const RegisterForm = () => {
             <TextField
               label="Email"
               variant="outlined"
-              className={classes.input}
+              type="email"
+              fullWidth
+              {...register("email", {
+                required: true,
+                pattern: /^\S+@\S+$/i,
+              })}
+              error={Boolean(errors?.email)}
+              helperText={errors?.email && errorMessages[errors?.email?.type]}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="Пароль"
               variant="outlined"
-              className={classes.input}
+              fullWidth
+              {...register("password", {
+                required: true,
+                minLength: 8,
+                maxLength: 32,
+              })}
+              error={Boolean(errors?.password)}
+              helperText={
+                errors?.password && errorMessages[errors?.password?.type]
+              }
+              type="password"
             />
           </Grid>
           <Grid item xs={12}>
@@ -77,31 +104,52 @@ const RegisterForm = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              {...register("firstname", {
+                required: true,
+              })}
+              error={Boolean(errors?.firstname)}
+              helperText={
+                errors?.firstname && errorMessages[errors?.firstname?.type]
+              }
               label="Имя"
               variant="outlined"
-              className={classes.input}
+              fullWidth
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              {...register("lastname", {
+                required: true,
+              })}
+              error={Boolean(errors?.lastname)}
+              helperText={
+                errors?.lastname && errorMessages[errors?.lastname?.type]
+              }
               label="Фамилия"
               variant="outlined"
-              className={classes.input}
+              fullWidth
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
+              {...register("phone", {
+                required: true,
+                pattern: /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/i,
+              })}
+              error={Boolean(errors?.phone)}
+              helperText={errors?.phone && errorMessages[errors?.phone?.type]}
               label="Телефон"
               variant="outlined"
-              className={classes.input}
+              fullWidth
             />
           </Grid>
           <Grid item xs={12}>
             <Button
-              className={classes.button}
+              fullWidth
               variant="contained"
               color="primary"
               disableElevation
+              disabled={!isValid}
             >
               Создать
             </Button>

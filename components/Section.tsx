@@ -11,6 +11,7 @@ type SectionProps = {
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
     maxWidth: "100%",
+    marginBottom: theme.spacing(3),
   },
   section: {
     "&:not(:last-child)": {
@@ -32,7 +33,6 @@ const Section = (props: SectionProps) => {
         className={classes.title}
         variant="h3"
         component={mainHeader ? "h1" : "h2"}
-        gutterBottom
       >
         {title}
       </Typography>

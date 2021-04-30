@@ -10,17 +10,13 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
+import createErrorMessages from "@root/lib/errorMessages";
 import NextLink from "next/link";
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    padding: theme.spacing(2, 2, 0, 2),
-  },
   title: {
     marginBottom: theme.spacing(4),
-  },
-  input: {
-    width: "100%",
   },
   button: {
     width: "100%",
@@ -30,36 +26,72 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const errorMessages = createErrorMessages({
+  minLength: 8,
+  maxLength: 32,
+});
+
 const LoginForm = () => {
   const classes = useStyles();
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+  } = useForm({ mode: "onBlur" });
+
+  const onSubmit = (data) => console.log(data);
 
   return (
-    <Card className={classes.root} elevation={0}>
+    <Card elevation={0}>
       <CardContent>
         <Typography className={classes.title} align="center" variant="h5">
           Войти в аккаунт
         </Typography>
-        <Grid container spacing={3} component="form">
+        <Grid
+          container
+          spacing={3}
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Grid item xs={12}>
             <TextField
-              className={classes.input}
+              {...register("email", {
+                required: true,
+                pattern: /^\S+@\S+$/i,
+              })}
+              error={Boolean(errors?.email)}
+              helperText={errors?.email && errorMessages[errors?.email?.type]}
+              type="email"
+              fullWidth
               variant="outlined"
               label="Email"
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
-              className={classes.input}
+              {...register("password", {
+                required: true,
+                minLength: 8,
+                maxLength: 32,
+              })}
+              error={Boolean(errors?.password)}
+              helperText={
+                errors?.password && errorMessages[errors?.password?.type]
+              }
+              type="password"
+              fullWidth
               variant="outlined"
               label="Пароль"
             />
           </Grid>
           <Grid item xs={12}>
             <Button
-              className={classes.button}
+              fullWidth
               color="primary"
               variant="contained"
               disableElevation
+              disabled={!isValid}
+              type="submit"
             >
               Войти
             </Button>

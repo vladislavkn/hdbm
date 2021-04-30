@@ -7,7 +7,7 @@ const useStyles = makeStyles({
     height: "100%",
   },
   centeredItem: {
-    maxWidth: 400,
+    maxWidth: 360,
     flex: 1,
   },
 });
