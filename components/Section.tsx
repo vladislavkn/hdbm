@@ -31,7 +31,7 @@ const Section = (props: SectionProps) => {
     <Box className={classes.section} component="section">
       <Typography
         className={classes.title}
-        variant="h3"
+        variant="h5"
         component={mainHeader ? "h1" : "h2"}
       >
         {title}

@@ -3,12 +3,14 @@ import Layout from "@components/Layout";
 import Section from "@components/Section";
 import WayCard from "@components/WayCard";
 import { Box, colors, makeStyles, Theme } from "@material-ui/core";
+import Carousel from "react-material-ui-carousel";
 
-const fakeWaysData = new Array(6).fill(null).map((_, index) => ({
+const fakeWaysData = new Array(4).fill(null).map((_, index) => ({
   title: "Сочи",
   text: "Lorem ipsum dolor sit amet",
-  imageUrl: "https://picsum.photos/300",
+  imageUrl: "https://picsum.photos/1200",
   href: `/search?way_id=${index}`,
+  objectsCount: Math.round(Math.random() * 100 + index + 1),
   id: index,
 }));
 
@@ -32,8 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
   item: {
     padding: theme.spacing(0, 1),
-    maxWidth: 360,
-    minWidth: 240,
+    minWidth: 280,
   },
 }));
 
@@ -43,18 +44,13 @@ export default function Home() {
   return (
     <Layout>
       <Section title="Популярные направления">
-        <Box className={classes.container}>
+        <Carousel animation="slide" autoPlay={false}>
           {fakeWaysData.map((way) => (
             <Box className={classes.item} key={way.id}>
-              <WayCard
-                title={way.title}
-                text={way.text}
-                href={way.href}
-                imageUrl={way.imageUrl}
-              />
+              <WayCard {...way} />
             </Box>
           ))}
-        </Box>
+        </Carousel>
       </Section>
       <Section title="Подобрать отель" mainHeader noDivider>
         <Filter />
