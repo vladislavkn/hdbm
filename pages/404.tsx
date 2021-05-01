@@ -1,3 +1,4 @@
+import Centered from "@components/Centered";
 import Layout from "@components/Layout";
 import {
   Grid,
@@ -29,31 +30,27 @@ const Login = () => {
 
   return (
     <Layout smallTopPadding title="Ошибка 404">
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        className={classes.center}
+      <Centered
+        containerClassName={classes.center}
+        contentClassName={classes.centeredItem}
       >
-        <Box className={classes.centeredItem}>
-          <Typography variant="h1" component="h2" className={classes.error}>
-            Error
-          </Typography>
-          <Typography
-            variant="h1"
-            component="h2"
-            className={classes.error}
-            gutterBottom
-          >
-            404
-          </Typography>
-          <Typography variant="subtitle1">
-            Упс, это страница почему-то не работает. Пока мы исправляем
-            проблему, вы можете <Link onClick={back}>Вернуться назад</Link> или{" "}
-            <Link onClick={() => push("/")}>Перейти на главную страницу</Link>.
-          </Typography>
-        </Box>
-      </Grid>
+        <Typography variant="h1" component="h2" className={classes.error}>
+          Error
+        </Typography>
+        <Typography
+          variant="h1"
+          component="h2"
+          className={classes.error}
+          gutterBottom
+        >
+          404
+        </Typography>
+        <Typography variant="subtitle1">
+          Упс, это страница почему-то не работает. Пока мы исправляем проблему,
+          вы можете <Link onClick={back}>Вернуться назад</Link> или{" "}
+          <Link onClick={() => push("/")}>Перейти на главную страницу</Link>.
+        </Typography>
+      </Centered>
     </Layout>
   );
 };
