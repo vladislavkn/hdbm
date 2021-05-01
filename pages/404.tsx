@@ -47,8 +47,8 @@ const Login = () => {
         </Typography>
         <Typography variant="subtitle1">
           Упс, это страница почему-то не работает. Пока мы исправляем проблему,
-          вы можете <Link onClick={back}>Вернуться назад</Link> или{" "}
-          <Link onClick={() => push("/")}>Перейти на главную страницу</Link>.
+          вы можете <Link onClick={back}>вернуться назад</Link> или{" "}
+          <Link onClick={() => push("/")}>перейти на главную страницу</Link>.
         </Typography>
       </Centered>
     </Layout>
