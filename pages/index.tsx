@@ -1,18 +1,14 @@
 import Filter from "@components/Filter";
+import RoomCard from "@components/RoomCard";
 import Layout from "@components/Layout";
 import Section from "@components/Section";
 import WayCard from "@components/WayCard";
 import { Box, colors, makeStyles, Theme } from "@material-ui/core";
+import { fakeRoom, fakeWays } from "@root/lib/fake";
 import Carousel from "react-material-ui-carousel";
-
-const fakeWaysData = new Array(4).fill(null).map((_, index) => ({
-  title: "Сочи",
-  text: "Lorem ipsum dolor sit amet",
-  imageUrl: "https://picsum.photos/1200",
-  href: `/search?way_id=${index}`,
-  objectsCount: Math.round(Math.random() * 100 + index + 1),
-  id: index,
-}));
+import { RoomFilterRecord } from "@root/lib/types";
+import { useState } from "react";
+import RoomsSearchResults from "@components/RoomsSearchResults";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -31,21 +27,33 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
   },
-
   item: {
     padding: theme.spacing(0, 1),
     minWidth: 280,
   },
+  filterResults: {
+    paddingTop: theme.spacing(4),
+  },
 }));
+
+const defaultFilterRecord: RoomFilterRecord = {
+  from: new Date(),
+  to: new Date(),
+  places: 0,
+  city: "Москва",
+};
 
 export default function Home() {
   const classes = useStyles();
+  const [filterRecord, setFilterRecord] = useState<RoomFilterRecord>(
+    defaultFilterRecord
+  );
 
   return (
     <Layout>
       <Section title="Популярные направления">
-        <Carousel animation="slide" autoPlay={false}>
-          {fakeWaysData.map((way) => (
+        <Carousel animation="slide" autoPlay={false} navButtonsAlwaysInvisible>
+          {fakeWays.map((way) => (
             <Box className={classes.item} key={way.id}>
               <WayCard {...way} />
             </Box>
@@ -53,7 +61,13 @@ export default function Home() {
         </Carousel>
       </Section>
       <Section title="Подобрать отель" mainHeader noDivider>
-        <Filter />
+        <Filter
+          onChange={setFilterRecord}
+          defaultRecord={defaultFilterRecord}
+        />
+        <div className={classes.filterResults}>
+          <RoomsSearchResults filterRecord={filterRecord} />
+        </div>
       </Section>
     </Layout>
   );

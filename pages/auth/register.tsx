@@ -1,6 +1,7 @@
+import Centered from "@components/Centered";
 import Layout from "@components/Layout";
 import RegisterForm from "@components/RegisterForm";
-import { Box, Grid, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
   center: {
@@ -17,16 +18,12 @@ const Register = () => {
 
   return (
     <Layout smallTopPadding title="Зарегестрироваться">
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        className={classes.center}
+      <Centered
+        containerClassName={classes.center}
+        contentClassName={classes.centeredItem}
       >
-        <Box className={classes.centeredItem}>
-          <RegisterForm />
-        </Box>
-      </Grid>
+        <RegisterForm />
+      </Centered>
     </Layout>
   );
 };

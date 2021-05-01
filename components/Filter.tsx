@@ -11,8 +11,10 @@ import {
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import LuxonUtils from "@date-io/luxon";
 import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { Autocomplete } from "@material-ui/lab";
+import { RoomFilterRecord } from "@root/lib/types";
+import useDebouncedCallBack from "@root/lib/useDebouncedCallBack";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -23,20 +25,34 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const cities = ["Москва", "Санкт-Петербург", "Ростов-на-Дону", "Урюпинск"];
 
-const Filter = () => {
+type FilterProps = {
+  onChange: (filterRecord: RoomFilterRecord) => void;
+  defaultRecord: RoomFilterRecord;
+};
+
+const Filter = ({ onChange, defaultRecord }: FilterProps) => {
   const classes = useStyles();
   const {
     register,
     setValue,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: defaultRecord });
 
   useEffect(() => {
-    register("cite", {
-      required: true,
-    });
+    register("city", { required: true });
   }, [register]);
+
+  const handleChange = useDebouncedCallBack(
+    () => onChange(formResult as RoomFilterRecord),
+    2000
+  );
+
+  const formResult = useWatch({ control });
+
+  useEffect(() => {
+    handleChange();
+  }, [formResult]);
 
   return (
     <MuiPickersUtilsProvider utils={LuxonUtils}>
@@ -48,8 +64,9 @@ const Filter = () => {
           <Grid container spacing={2} component="form">
             <Grid item xs={6} md={3}>
               <Controller
-                name="fromDate"
+                name="from"
                 control={control}
+                defaultValue={new Date()}
                 render={({ field: { onChange, value } }) => (
                   <DatePicker
                     fullWidth
@@ -64,8 +81,9 @@ const Filter = () => {
             </Grid>
             <Grid item xs={6} md={3}>
               <Controller
-                name="toDate"
+                name="to"
                 control={control}
+                defaultValue={new Date()}
                 render={({ field: { onChange, value } }) => (
                   <DatePicker
                     fullWidth
@@ -80,9 +98,11 @@ const Filter = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <TextField
-                {...register("placesCount")}
+                {...register("places", {
+                  valueAsNumber: true,
+                })}
                 fullWidth
-                defaultValue="1"
+                defaultValue={1}
                 variant="outlined"
                 label="Места"
                 type="number"
@@ -91,7 +111,7 @@ const Filter = () => {
             <Grid item xs={12} sm={6} md={3}>
               <Autocomplete
                 options={cities}
-                onChange={(value) => setValue("city", value)}
+                onChange={(_, value) => setValue("city", value)}
                 renderInput={(params) => (
                   <TextField
                     {...params}

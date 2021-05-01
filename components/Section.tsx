@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginBottom: theme.spacing(4),
     },
   },
-  divider: {
-    marginTop: theme.spacing(4),
-  },
 }));
 
 const Section = (props: SectionProps) => {
@@ -37,7 +34,6 @@ const Section = (props: SectionProps) => {
         {title}
       </Typography>
       {children}
-      {!noDivider && <Divider className={classes.divider} />}
     </Box>
   );
 };
