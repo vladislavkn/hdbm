@@ -22,6 +22,9 @@ const useStyles = makeStyles({
     fontFamily: "monospace",
     color: colors.grey[700],
   },
+  link: {
+    cursor: "pointer",
+  },
 });
 
 const Login = () => {
@@ -34,21 +37,27 @@ const Login = () => {
         containerClassName={classes.center}
         contentClassName={classes.centeredItem}
       >
-        <Typography variant="h1" component="h2" className={classes.error}>
-          Error
-        </Typography>
         <Typography
           variant="h1"
           component="h2"
           className={classes.error}
           gutterBottom
         >
-          404
+          Error
+          <br />
+          404:(
         </Typography>
         <Typography variant="subtitle1">
           Упс, это страница почему-то не работает. Пока мы исправляем проблему,
-          вы можете <Link onClick={back}>вернуться назад</Link> или{" "}
-          <Link onClick={() => push("/")}>перейти на главную страницу</Link>.
+          вы можете{" "}
+          <Link className={classes.link} onClick={back}>
+            вернуться назад
+          </Link>{" "}
+          или{" "}
+          <Link className={classes.link} onClick={() => push("/")}>
+            перейти на главную страницу
+          </Link>
+          .
         </Typography>
       </Centered>
     </Layout>
