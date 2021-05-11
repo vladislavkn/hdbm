@@ -1,13 +1,4 @@
-import {
-  Card,
-  CardContent,
-  colors,
-  Grid,
-  makeStyles,
-  TextField,
-  Theme,
-  Typography,
-} from "@material-ui/core";
+import { colors, Grid, makeStyles, TextField, Theme } from "@material-ui/core";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import LuxonUtils from "@date-io/luxon";
 import { useEffect } from "react";
@@ -56,76 +47,69 @@ const Filter = ({ onChange, defaultRecord }: FilterProps) => {
 
   return (
     <MuiPickersUtilsProvider utils={LuxonUtils}>
-      <Card>
-        <CardContent>
-          <Typography variant="subtitle1" className={classes.title}>
-            Фильтр поиска
-          </Typography>
-          <Grid container spacing={2} component="form">
-            <Grid item xs={6} md={3}>
-              <Controller
-                name="from"
-                control={control}
-                defaultValue={new Date()}
-                render={({ field: { onChange, value } }) => (
-                  <DatePicker
-                    fullWidth
-                    value={value}
-                    onChange={onChange}
-                    inputVariant="outlined"
-                    label="Дата заезда"
-                    format="dd.MM.yyyy"
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={6} md={3}>
-              <Controller
-                name="to"
-                control={control}
-                defaultValue={new Date()}
-                render={({ field: { onChange, value } }) => (
-                  <DatePicker
-                    fullWidth
-                    value={value}
-                    onChange={onChange}
-                    inputVariant="outlined"
-                    label="Дата отъезда"
-                    format="dd.MM.yyyy"
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <TextField
-                {...register("places", {
-                  valueAsNumber: true,
-                })}
+      <Grid container spacing={2} component="form">
+        <Grid item xs={6} md={3}>
+          <Controller
+            name="from"
+            control={control}
+            defaultValue={new Date()}
+            render={({ field: { onChange, value } }) => (
+              <DatePicker
                 fullWidth
-                defaultValue={1}
+                value={value}
+                onChange={onChange}
+                inputVariant="outlined"
+                label="Дата заезда"
+                format="dd.MM.yyyy"
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={6} md={3}>
+          <Controller
+            name="to"
+            control={control}
+            defaultValue={new Date()}
+            render={({ field: { onChange, value } }) => (
+              <DatePicker
+                fullWidth
+                value={value}
+                onChange={onChange}
+                inputVariant="outlined"
+                label="Дата отъезда"
+                format="dd.MM.yyyy"
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            {...register("places", {
+              valueAsNumber: true,
+            })}
+            fullWidth
+            defaultValue={1}
+            variant="outlined"
+            label="Места"
+            type="number"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Autocomplete
+            options={cities}
+            onChange={(_, value) => setValue("city", value)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Город"
                 variant="outlined"
-                label="Места"
-                type="number"
+                error={Boolean(errors?.city)}
+                helperText={errors?.city?.message}
               />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Autocomplete
-                options={cities}
-                onChange={(_, value) => setValue("city", value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Город"
-                    variant="outlined"
-                    error={Boolean(errors?.city)}
-                    helperText={errors?.city?.message}
-                  />
-                )}
-              />
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
+            )}
+          />
+        </Grid>
+      </Grid>
     </MuiPickersUtilsProvider>
   );
 };

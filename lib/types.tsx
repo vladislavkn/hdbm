@@ -1,4 +1,4 @@
-type ID = string | number;
+export type ID = string | number;
 
 export type Hotel = {
   title: string;
@@ -14,6 +14,7 @@ export type Room = {
   title: string;
   description: string;
   rating: number;
+  reviews: number;
   images: string[];
   hotel: Hotel;
   price: number;
@@ -26,4 +27,20 @@ export type RoomFilterRecord = {
   to: Date;
   places: number;
   city: string;
+};
+
+export type Way = {
+  imageUrl: string;
+  title: string;
+  text: string;
+  href: string;
+  objectsCount: number;
+  id: ID;
+};
+
+export type WayDTO = {
+  way_name: string;
+  way_id: ID;
+  way_description: string;
+  photo_url: string;
 };

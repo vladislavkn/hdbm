@@ -1,24 +1,25 @@
-import { Hotel, Room } from "./types";
+import { Hotel, Room, RoomFilterRecord } from "./types";
 
 export const fakeHotel: Hotel = {
   title: "Test hotel",
   id: 0,
 };
 
-export const fakeRoom: Room = {
+export const fakeRooms: Room[] = new Array(4).fill(null).map((_, index) => ({
   title: "Lorem ipsum",
   description:
     "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet",
-  images: ["https://picsum.photos/1300"],
+  images: ["https://picsum.photos/1300", "https://picsum.photos/1301"],
   rating: 4,
-  id: 0,
-  price: 1440,
+  reviews: index * 14 + 2,
+  id: index,
+  price: 1440 * index + 100,
   hotel: fakeHotel,
   adress: {
     asText: "Улица им. Зубенко Михаила",
     city: "Москва",
   },
-};
+}));
 
 export const fakeWays = new Array(4).fill(null).map((_, index) => ({
   title: "Сочи",
@@ -28,3 +29,10 @@ export const fakeWays = new Array(4).fill(null).map((_, index) => ({
   objectsCount: index * 100,
   id: index,
 }));
+
+export const fakeDefaultFilterRecord: RoomFilterRecord = {
+  from: new Date(),
+  to: new Date(),
+  places: 0,
+  city: "Москва",
+};

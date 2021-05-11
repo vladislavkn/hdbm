@@ -1,3 +1,4 @@
+import { colors } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { PaletteColorOptions } from "@material-ui/core/styles/createPalette";
 
@@ -8,8 +9,16 @@ const primary: PaletteColorOptions = {
   contrastText: "#ffffff",
 };
 
+const secondary: PaletteColorOptions = {
+  light: colors.grey[300],
+  main: colors.grey[500],
+  dark: colors.grey[700],
+  contrastText: "#ffffff",
+};
+
 export default createMuiTheme({
   palette: {
     primary,
+    secondary,
   },
 });

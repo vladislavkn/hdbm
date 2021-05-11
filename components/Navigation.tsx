@@ -12,6 +12,7 @@ const useStyles = makeStyles({
   appBar: {
     backgroundColor: "white",
     color: colors.grey[700],
+    borderBottom: "1px solid " + colors.grey[300],
   },
   logo: {
     alignItems: "center",
@@ -28,26 +29,29 @@ const Navigation = () => {
   const classes = useStyles();
 
   return (
-    <AppBar position="sticky" elevation={0} className={classes.appBar}>
-      <Toolbar>
-        <DrawerMenu />
-        <Box className={classes.logo}>
-          <Link href="/">
-            <a className={classes.logoLink}>
-              <Image
-                src="/logo.svg"
-                width={112}
-                height={29}
-                layout="intrinsic"
-              />
-            </a>
-          </Link>
-        </Box>
-        {routes.map((route) => (
-          <DesktopNavigationLink route={route} key={route.text} />
-        ))}
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar position="fixed" elevation={0} className={classes.appBar}>
+        <Toolbar>
+          <DrawerMenu />
+          <Box className={classes.logo}>
+            <Link href="/">
+              <a className={classes.logoLink}>
+                <Image
+                  src="/logo.svg"
+                  width={112}
+                  height={29}
+                  layout="intrinsic"
+                />
+              </a>
+            </Link>
+          </Box>
+          {routes.map((route) => (
+            <DesktopNavigationLink route={route} key={route.text} />
+          ))}
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
+    </>
   );
 };
 

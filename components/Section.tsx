@@ -11,6 +11,8 @@ type SectionProps = {
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
     maxWidth: "100%",
+    fontWeight: "bold",
+    fontSize: "2rem",
     marginBottom: theme.spacing(3),
   },
   section: {
@@ -28,7 +30,6 @@ const Section = (props: SectionProps) => {
     <Box className={classes.section} component="section">
       <Typography
         className={classes.title}
-        variant="h5"
         component={mainHeader ? "h1" : "h2"}
       >
         {title}
