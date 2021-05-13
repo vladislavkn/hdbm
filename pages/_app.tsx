@@ -4,7 +4,10 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../theme";
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import Head from "next/head";
+import store from "@root/lib/store";
+import { Provider } from "react-redux";
 import "@root/styles/globals.css";
+import MessagesBundle from "@components/MessagesBundle";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -24,7 +27,10 @@ export default function MyApp(props: AppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+          <MessagesBundle />
+        </Provider>
       </ThemeProvider>
     </>
   );

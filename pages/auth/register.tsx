@@ -1,3 +1,4 @@
+import AuthController from "@components/AuthController";
 import Centered from "@components/Centered";
 import Layout from "@components/Layout";
 import RegisterForm from "@components/RegisterForm";
@@ -23,6 +24,7 @@ const Register = () => {
         contentClassName={classes.centeredItem}
       >
         <RegisterForm />
+        <AuthController />
       </Centered>
     </Layout>
   );

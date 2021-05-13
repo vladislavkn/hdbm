@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardContent,
+  CircularProgress,
   colors,
   Grid,
   Link,
@@ -10,9 +11,12 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
+import { registerUser } from "@root/lib/slices/auth";
 import createErrorMessages from "@root/lib/errorMessages";
+import { RegisterPayload } from "@root/lib/types";
 import NextLink from "next/link";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "@root/lib/store-hooks";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -37,9 +41,13 @@ const RegisterForm = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
-  } = useForm({ mode: "onBlur" });
+  } = useForm<RegisterPayload>({ mode: "onBlur" });
+  const dispatch = useDispatch();
+  const authLoading = useSelector((state) => state.auth.loading);
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    dispatch(registerUser(data));
+  };
 
   return (
     <Card elevation={0}>
@@ -150,8 +158,14 @@ const RegisterForm = () => {
               color="primary"
               disableElevation
               disabled={!isValid}
+              role="submit"
+              onClick={handleSubmit(onSubmit)}
             >
-              Создать
+              {!authLoading ? (
+                "Создать"
+              ) : (
+                <CircularProgress size={24} style={{ color: "white" }} />
+              )}
             </Button>
           </Grid>
           <Grid item xs={12}>

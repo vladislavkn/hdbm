@@ -9,8 +9,14 @@ import {
 } from "@material-ui/core";
 import { useState } from "react";
 import { Menu } from "@material-ui/icons";
-import routes from "@root/lib/routes";
+import {
+  BOOKINGS_ROUTE,
+  LOGIN_ROUTE,
+  WAYS_ROUTE,
+  PROFILE_ROUTE,
+} from "@root/lib/routes";
 import MobileNavigationLink from "./MobileNavigationLink";
+import WithAuth from "./WithAuth";
 
 const useStyles = makeStyles((theme: Theme) => ({
   openMenuButton: {
@@ -42,9 +48,16 @@ const DrawerMenu = () => {
             </>
           }
         >
-          {routes.map((route) => (
-            <MobileNavigationLink route={route} key={route.text} />
-          ))}
+          <MobileNavigationLink route={WAYS_ROUTE} />
+          <WithAuth
+            loggedIn={() => (
+              <>
+                <MobileNavigationLink route={BOOKINGS_ROUTE} />
+                <MobileNavigationLink route={PROFILE_ROUTE} />
+              </>
+            )}
+            guest={<MobileNavigationLink route={LOGIN_ROUTE} />}
+          />
         </List>
       </Drawer>
     </>

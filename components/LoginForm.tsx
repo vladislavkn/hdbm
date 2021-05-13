@@ -1,8 +1,8 @@
 import {
-  Box,
   Button,
   Card,
   CardContent,
+  CircularProgress,
   Grid,
   Link,
   makeStyles,
@@ -11,6 +11,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import createErrorMessages from "@root/lib/errorMessages";
+import { loginUser } from "@root/lib/slices/auth";
+import { useDispatch, useSelector } from "@root/lib/store-hooks";
+import { LoginPayload } from "@root/lib/types";
 import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -37,9 +40,13 @@ const LoginForm = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
-  } = useForm({ mode: "onBlur" });
+  } = useForm<LoginPayload>({ mode: "onBlur" });
+  const dispatch = useDispatch();
+  const authLoading = useSelector((state) => state.auth.loading);
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    dispatch(loginUser(data));
+  };
 
   return (
     <Card elevation={0}>
@@ -93,7 +100,11 @@ const LoginForm = () => {
               disabled={!isValid}
               type="submit"
             >
-              Войти
+              {!authLoading ? (
+                "Войти"
+              ) : (
+                <CircularProgress size={24} style={{ color: "white" }} />
+              )}
             </Button>
           </Grid>
           <Grid item xs={12}>

@@ -1,12 +1,18 @@
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import { Box, colors } from "@material-ui/core";
+import { Box, colors, IconButton } from "@material-ui/core";
 import Image from "next/image";
 import Link from "next/link";
 import DesktopNavigationLink from "./DesktopNavigationLink";
-import routes from "@root/lib/routes";
+import {
+  BOOKINGS_ROUTE,
+  LOGIN_ROUTE,
+  WAYS_ROUTE,
+  PROFILE_ROUTE,
+} from "@root/lib/routes";
 import DrawerMenu from "./DrawerMenu";
+import WithAuth from "./WithAuth";
 
 const useStyles = makeStyles({
   appBar: {
@@ -45,9 +51,16 @@ const Navigation = () => {
               </a>
             </Link>
           </Box>
-          {routes.map((route) => (
-            <DesktopNavigationLink route={route} key={route.text} />
-          ))}
+          <DesktopNavigationLink route={WAYS_ROUTE} />
+          <WithAuth
+            loggedIn={() => (
+              <>
+                <DesktopNavigationLink route={BOOKINGS_ROUTE} />
+                <DesktopNavigationLink route={PROFILE_ROUTE} />
+              </>
+            )}
+            guest={<DesktopNavigationLink route={LOGIN_ROUTE} />}
+          />
         </Toolbar>
       </AppBar>
       <Toolbar />

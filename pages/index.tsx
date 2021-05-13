@@ -5,7 +5,7 @@ import WayCardsBundle from "@components/WayCardsBundle";
 
 export default function Home() {
   return (
-    <Layout>
+    <Layout title="HDBM">
       <Section title="Популярные направления">
         <WayCardsBundle />
       </Section>

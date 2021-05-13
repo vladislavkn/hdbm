@@ -1,3 +1,4 @@
+import AuthController from "@components/AuthController";
 import Centered from "@components/Centered";
 import Layout from "@components/Layout";
 import LoginForm from "@components/LoginForm";
@@ -23,6 +24,7 @@ const Login = () => {
         contentClassName={classes.centeredItem}
       >
         <LoginForm />
+        <AuthController />
       </Centered>
     </Layout>
   );

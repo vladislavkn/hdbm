@@ -4,10 +4,6 @@ import { WayDTO, Way } from "@root/lib/types";
 const getWays = () =>
   fetch(SERVER_URL)
     .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
     .then((res: WayDTO[]): Way[] =>
       res.map((w) => ({
         imageUrl: w.photo_url,

@@ -1,6 +1,7 @@
 import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import {
+  AccountCircle,
   MapOutlined,
   PersonOutlined,
   VpnKeyOutlined,
@@ -12,22 +13,26 @@ export type Route = {
   text: string;
 };
 
-const routes: Route[] = [
-  {
-    text: "Направления",
-    icon: MapOutlined,
-    href: "/",
-  },
-  {
-    text: "Бронирования",
-    icon: VpnKeyOutlined,
-    href: "/bookings",
-  },
-  {
-    text: "Войти",
-    icon: PersonOutlined,
-    href: "/auth/login",
-  },
-];
+export const WAYS_ROUTE = {
+  text: "Направления",
+  icon: MapOutlined,
+  href: "/",
+};
 
-export default routes;
+export const BOOKINGS_ROUTE = {
+  text: "Бронирования",
+  icon: VpnKeyOutlined,
+  href: "/bookings",
+};
+
+export const LOGIN_ROUTE = {
+  text: "Войти",
+  icon: PersonOutlined,
+  href: "/auth/login",
+};
+
+export const PROFILE_ROUTE = {
+  text: "Профиль",
+  icon: AccountCircle,
+  href: "/auth/profile",
+};

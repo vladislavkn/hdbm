@@ -44,3 +44,21 @@ export type WayDTO = {
   way_description: string;
   photo_url: string;
 };
+
+export type RegisterPayload = {
+  firstname: string;
+  lastname: string;
+  phone: string;
+  email: string;
+  password: string;
+};
+
+export type User = {
+  firstname: string;
+  lastname: string;
+};
+
+export type LoginPayload = {
+  email: string;
+  password: string;
+};
