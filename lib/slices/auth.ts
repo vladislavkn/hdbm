@@ -3,6 +3,35 @@ import { LoginPayload, RegisterPayload, User } from "../types";
 import loginUserRequest from "@root/api/loginUserRequest";
 import registerUserRequest from "@root/api/registerUserRequest";
 import { push } from "./notifications";
+import getUserRequest from "@root/api/GetUserRequest";
+import { RootState } from "../store";
+
+export const tryToLoginWithSavedToken = createAsyncThunk(
+  "auth/tryToLoginWithSavedToken",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    console.group("Try to login with saved token");
+    const user = (getState() as RootState).auth.user;
+    if (user) {
+      console.log("Already logged in:", user);
+      return rejectWithValue(null);
+    }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token is empty");
+      return rejectWithValue(null);
+    } else console.log("Got token: " + token);
+
+    try {
+      return await getUserRequest(token);
+    } catch (e) {
+      console.error(e);
+      dispatch(push("Ошибка при авторизации: " + e.message));
+      return;
+    } finally {
+      console.groupEnd();
+    }
+  }
+);
 
 export const loginUser = createAsyncThunk(
   "auth/login",
@@ -15,10 +44,7 @@ export const loginUser = createAsyncThunk(
 
       localStorage.setItem("token", token);
       console.log("Got token:", token);
-      return {
-        firstname: "Logged in",
-        lastname: "Logged in",
-      };
+      return dispatch(tryToLoginWithSavedToken());
     } catch (e) {
       console.error(e);
       dispatch(push("Ошибка при авторизации: " + e.message));
@@ -40,10 +66,7 @@ export const registerUser = createAsyncThunk(
 
       localStorage.setItem("token", token);
       console.log("Got token:", token);
-      return {
-        firstname: "Logged in",
-        lastname: "Logged in",
-      };
+      dispatch(tryToLoginWithSavedToken());
     } catch (e) {
       console.error(e);
       dispatch(push("Ошибка при авторизации: " + e.message));
@@ -71,19 +94,23 @@ const auth = createSlice({
     };
     const onFulfilled = (state, { payload }) => {
       state.loading = false;
-      state.error = null;
       state.user = payload;
     };
     const onRejected = (state) => {
       state.loading = false;
     };
+
     builder
+      // Pending
       .addCase(registerUser.pending, onPending)
       .addCase(loginUser.pending, onPending)
-      .addCase(loginUser.fulfilled, onFulfilled)
-      .addCase(registerUser.fulfilled, onFulfilled)
+      .addCase(tryToLoginWithSavedToken.pending, onPending)
+      // Fulfilled
+      .addCase(tryToLoginWithSavedToken.fulfilled, onFulfilled)
+      // Rejected
       .addCase(loginUser.rejected, onRejected)
-      .addCase(registerUser.rejected, onRejected);
+      .addCase(registerUser.rejected, onRejected)
+      .addCase(tryToLoginWithSavedToken.rejected, onRejected);
   },
 });
 

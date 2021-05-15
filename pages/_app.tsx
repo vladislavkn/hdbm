@@ -8,6 +8,7 @@ import store from "@root/lib/store";
 import { Provider } from "react-redux";
 import "@root/styles/globals.css";
 import MessagesBundle from "@components/MessagesBundle";
+import UserLoginAfterReload from "@components/UserLoginAfterReload";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -28,6 +29,7 @@ export default function MyApp(props: AppProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Provider store={store}>
+          <UserLoginAfterReload />
           <Component {...pageProps} />
           <MessagesBundle />
         </Provider>

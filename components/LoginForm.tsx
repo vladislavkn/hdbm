@@ -40,7 +40,7 @@ const LoginForm = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
-  } = useForm<LoginPayload>({ mode: "onBlur" });
+  } = useForm<LoginPayload>({ mode: "all" });
   const dispatch = useDispatch();
   const authLoading = useSelector((state) => state.auth.loading);
 

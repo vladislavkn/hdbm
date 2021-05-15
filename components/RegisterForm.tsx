@@ -41,7 +41,7 @@ const RegisterForm = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
-  } = useForm<RegisterPayload>({ mode: "onBlur" });
+  } = useForm<RegisterPayload>({ mode: "all" });
   const dispatch = useDispatch();
   const authLoading = useSelector((state) => state.auth.loading);
 
