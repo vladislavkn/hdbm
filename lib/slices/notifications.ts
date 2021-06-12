@@ -13,7 +13,7 @@ const notifications = createSlice({
     messages: [] as Message[],
   },
   reducers: {
-    push(state, { payload }) {
+    notify(state, { payload }) {
       state.messages.push({
         id: crypto.randomBytes(16).toString("hex"),
         text: payload,
@@ -26,5 +26,5 @@ const notifications = createSlice({
   },
 });
 
-export const { push, remove } = notifications.actions;
+export const { notify, remove } = notifications.actions;
 export default notifications.reducer;

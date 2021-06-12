@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginPayload, RegisterPayload, User } from "../types";
-import { push } from "./notifications";
+import { notify } from "./notifications";
 import { RootState } from "../store";
 import tokenService from "../services/tokenService";
 import authService from "../services/authService";
@@ -15,7 +15,7 @@ export const tryToLoginWithSavedToken = createAsyncThunk(
     if (!token) return rejectWithValue(null);
 
     return authService.getUser(token).catch((err) => {
-      dispatch(push("Ошибка при авторизации: " + err.message));
+      dispatch(notify("Ошибка при авторизации: " + err.message));
       return rejectWithValue(null);
     });
   }
@@ -32,7 +32,7 @@ export const loginUser = createAsyncThunk(
         return dispatch(tryToLoginWithSavedToken());
       })
       .catch((err) => {
-        dispatch(push("Ошибка при авторизации: " + err.message));
+        dispatch(notify("Ошибка при авторизации: " + err.message));
         return rejectWithValue(null);
       })
 );
@@ -48,7 +48,7 @@ export const registerUser = createAsyncThunk(
         return dispatch(tryToLoginWithSavedToken());
       })
       .catch((err) => {
-        dispatch(push("Ошибка при авторизации: " + err.message));
+        dispatch(notify("Ошибка при авторизации: " + err.message));
         return rejectWithValue(null);
       })
 );
