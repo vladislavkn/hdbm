@@ -1,7 +1,5 @@
 import { CircularProgress, Grid, makeStyles, Theme } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import getWays from "@root/api/getWays";
-import { fakeWays } from "@root/lib/fake";
 import { Way } from "@root/lib/types";
 import useLoader from "@root/lib/hooks/useLoader";
 import { useMemo } from "react";
@@ -45,7 +43,7 @@ const WayCardsBundle = () => {
         {wayCards}
       </Carousel>
       <Grid container spacing={2} className={classes.gridDisplay}>
-        {fakeWays.map(({ id }, i) => (
+        {data.map(({ id }, i) => (
           <Grid item sm={6} md={3} key={id}>
             {wayCards[i]}
           </Grid>
