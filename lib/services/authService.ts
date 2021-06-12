@@ -1,24 +1,29 @@
-import axios from "axios";
-import { SERVER_URL } from "../constants";
 import { LoginPayload, RegisterPayload, User } from "../types";
+import httpService from "./httpService";
 
 const authService = {
   login(payload: LoginPayload) {
-    return axios
-      .post(`${SERVER_URL}/login`, payload)
-      .then((res) => res.data.token);
+    return httpService.request
+      .post("/login", payload)
+      .then(httpService.handleNotStatusError)
+      .then((res) => res.data.token)
+      .catch(httpService.handleError);
   },
   register(payload: RegisterPayload) {
-    return axios
-      .post(`${SERVER_URL}/register`, payload)
-      .then((res) => res.data.token);
+    return httpService.request
+      .post("/register", payload)
+      .then(httpService.handleNotStatusError)
+      .then((res) => res.data.token)
+      .catch(httpService.handleError);
   },
   getUser(token: string) {
-    return axios
-      .get<User[]>(`${SERVER_URL}/request-user`, {
+    return httpService.request
+      .get<User[]>("/request-user", {
         params: { token },
       })
-      .then((res) => res.data[0]);
+      .then(httpService.handleNotStatusError)
+      .then((res) => res.data[0])
+      .catch(httpService.handleError);
   },
 };
 

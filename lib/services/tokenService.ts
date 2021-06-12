@@ -1,4 +1,5 @@
 import axios from "axios";
+import httpService from "./httpService";
 
 const JWT_ACCESS_TOKEN_KEY = "JWT_ACCESS_TOKEN_KEY";
 const JWT_REFRESH_TOKEN_KEY = "JWT_REFRESH_TOKEN_KEY";
@@ -7,10 +8,10 @@ const tokenService = {
   setAccessToken(token: string | null | false) {
     if (token) {
       localStorage.setItem(JWT_ACCESS_TOKEN_KEY, token);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      httpService.setAuthHeader(`Bearer ${token}`);
     } else {
       localStorage.removeItem(JWT_ACCESS_TOKEN_KEY);
-      delete axios.defaults.headers.common["Authorization"];
+      httpService.unsetAuthHeader();
     }
   },
   getAccessToken(): string | null {

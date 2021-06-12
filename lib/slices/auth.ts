@@ -14,10 +14,7 @@ export const tryToLoginWithSavedToken = createAsyncThunk(
     const token = tokenService.getAccessToken();
     if (!token) return rejectWithValue(null);
 
-    return authService.getUser(token).catch((err) => {
-      dispatch(notify("Ошибка при авторизации: " + err.message));
-      return rejectWithValue(null);
-    });
+    return authService.getUser(token).catch(() => rejectWithValue(null));
   }
 );
 
@@ -31,10 +28,7 @@ export const loginUser = createAsyncThunk(
         tokenService.setAccessToken(accessToken);
         return dispatch(tryToLoginWithSavedToken());
       })
-      .catch((err) => {
-        dispatch(notify("Ошибка при авторизации: " + err.message));
-        return rejectWithValue(null);
-      })
+      .catch(() => rejectWithValue(null))
 );
 
 export const registerUser = createAsyncThunk(
@@ -47,10 +41,7 @@ export const registerUser = createAsyncThunk(
         tokenService.setAccessToken(token);
         return dispatch(tryToLoginWithSavedToken());
       })
-      .catch((err) => {
-        dispatch(notify("Ошибка при авторизации: " + err.message));
-        return rejectWithValue(null);
-      })
+      .catch(() => rejectWithValue(null))
 );
 
 const auth = createSlice({
