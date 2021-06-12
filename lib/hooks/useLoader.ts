@@ -15,7 +15,7 @@ const useLoader = <T>(
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const executeLoad = async () => {
+  const executeLoad = () => {
     setLoading(true);
     setError(null);
 

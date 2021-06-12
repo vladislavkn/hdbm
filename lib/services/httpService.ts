@@ -16,7 +16,6 @@ const httpService: HttpService = {
   request: axios.create({
     baseURL: SERVER_URL,
     timeout: 20000,
-    validateStatus: () => false,
   }),
   handleError(e: AxiosError) {
     const message = e.response ? e.response.data.message : e.message;

@@ -1,13 +1,13 @@
 import Layout from "@components/Layout";
 import { ID, Room } from "@root/lib/types";
 import { GetServerSideProps } from "next";
-import getRoomById from "@root/api/getRoomById";
 import { Button, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 import { LocationOnOutlined } from "@material-ui/icons";
 import { Rating } from "@material-ui/lab";
 import RoomsSearchResults from "@components/SearchRoomsResults";
 import { fakeDefaultFilterRecord } from "@root/lib/fake";
+import roomsService from "@root/lib/services/roomsService";
 
 type RoomPageProps = {
   room: Room;
@@ -112,7 +112,7 @@ const RoomPage = ({ room }: RoomPageProps) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
-      room: await getRoomById(context.params.id as ID),
+      room: await roomsService.getRoomById(context.params.id as ID),
     },
   };
 };
