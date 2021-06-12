@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { Autocomplete } from "@material-ui/lab";
 import { RoomFilterRecord } from "@root/lib/types";
-import useDebouncedCallBack from "@root/lib/useDebouncedCallBack";
+import useDebouncedCallBack from "@root/lib/hooks/useDebouncedCallBack";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {

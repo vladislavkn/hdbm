@@ -1,4 +1,4 @@
-import { useSelector } from "@root/lib/store-hooks";
+import { useSelector } from "@root/lib/hooks/typedStoreHooks";
 import { User } from "@root/lib/types";
 
 type ChildRenderFn = (user: User) => React.ReactChild;

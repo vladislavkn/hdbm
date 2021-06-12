@@ -1,7 +1,7 @@
 import { IconButton, Snackbar } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { remove } from "@root/lib/slices/notifications";
-import { useSelector, useDispatch } from "@root/lib/store-hooks";
+import { useSelector, useDispatch } from "@root/lib/hooks/typedStoreHooks";
 
 const MessagesBundle = () => {
   const message = useSelector((state) => state.notifications.messages[0]);

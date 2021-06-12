@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import createErrorMessages from "@root/lib/errorMessages";
 import { loginUser } from "@root/lib/slices/auth";
-import { useDispatch, useSelector } from "@root/lib/store-hooks";
+import { useDispatch, useSelector } from "@root/lib/hooks/typedStoreHooks";
 import { LoginPayload } from "@root/lib/types";
 import NextLink from "next/link";
 import { useForm } from "react-hook-form";

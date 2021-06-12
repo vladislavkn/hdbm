@@ -1,4 +1,4 @@
-import { useSelector } from "@root/lib/store-hooks";
+import { useSelector } from "@root/lib/hooks/typedStoreHooks";
 import { useRouter } from "next/router";
 
 const AuthController = () => {

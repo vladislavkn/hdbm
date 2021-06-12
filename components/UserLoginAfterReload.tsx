@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "@root/lib/store-hooks";
+import { useDispatch } from "@root/lib/hooks/typedStoreHooks";
 import { tryToLoginWithSavedToken } from "@root/lib/slices/auth";
 
 const UserLoginAfterReload = () => {

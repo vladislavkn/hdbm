@@ -16,7 +16,7 @@ import createErrorMessages from "@root/lib/errorMessages";
 import { RegisterPayload } from "@root/lib/types";
 import NextLink from "next/link";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "@root/lib/store-hooks";
+import { useDispatch, useSelector } from "@root/lib/hooks/typedStoreHooks";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {

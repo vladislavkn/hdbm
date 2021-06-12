@@ -3,7 +3,7 @@ import { Alert } from "@material-ui/lab";
 import getWays from "@root/api/getWays";
 import { fakeWays } from "@root/lib/fake";
 import { Way } from "@root/lib/types";
-import useLoadData from "@root/lib/useLoadData";
+import useLoadData from "@root/lib/hooks/useLoadData";
 import { useMemo } from "react";
 import Carousel from "react-material-ui-carousel";
 import WayCard from "./WayCard";

@@ -4,7 +4,7 @@ import { Button, Link, Typography } from "@material-ui/core";
 import { LOGIN_ROUTE } from "@root/lib/routes";
 import { logout } from "@root/lib/slices/auth";
 import NextLink from "next/link";
-import { useSelector, useDispatch } from "../../lib/store-hooks";
+import { useSelector, useDispatch } from "../../lib/hooks/typedStoreHooks";
 
 const Profile = () => {
   const user = useSelector((state) => state.auth.user);
