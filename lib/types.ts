@@ -37,13 +37,6 @@ export type Way = {
   id: ID;
 };
 
-export type WayDTO = {
-  way_name: string;
-  way_id: ID;
-  way_description: string;
-  photo_url: string;
-};
-
 export type RegisterPayload = {
   firstname: string;
   lastname: string;

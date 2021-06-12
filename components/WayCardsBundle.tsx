@@ -1,11 +1,11 @@
 import { CircularProgress, Grid, makeStyles, Theme } from "@material-ui/core";
-import getWays from "@root/api/getWays";
 import { Way } from "@root/lib/types";
 import useLoader from "@root/lib/hooks/useLoader";
 import { useMemo } from "react";
 import Carousel from "react-material-ui-carousel";
 import WayCard from "./WayCard";
 import DisplayError from "./DisplayError";
+import waysService from "@root/lib/services/waysService";
 
 const useStyles = makeStyles((theme: Theme) => ({
   carouselDisplay: {
@@ -22,7 +22,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const WayCardsBundle = () => {
   const classes = useStyles();
-  const { data, loading, error } = useLoader<Way[]>(getWays, []);
+  const { data, loading, error } = useLoader<Way[]>(
+    () => waysService.loadAllWays(),
+    []
+  );
 
   const wayCards = useMemo(
     () => data.map((way) => <WayCard way={way} key={way.id} />),
