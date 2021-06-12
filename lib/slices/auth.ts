@@ -1,11 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginPayload, RegisterPayload, User } from "../types";
-import loginUserRequest from "@root/api/loginUserRequest";
-import registerUserRequest from "@root/api/registerUserRequest";
 import { push } from "./notifications";
-import getUserRequest from "@root/api/GetUserRequest";
 import { RootState } from "../store";
 import tokenService from "../services/tokenService";
+import authService from "../services/authService";
 
 export const tryToLoginWithSavedToken = createAsyncThunk(
   "auth/tryToLoginWithSavedToken",
@@ -16,7 +14,7 @@ export const tryToLoginWithSavedToken = createAsyncThunk(
     const token = tokenService.getAccessToken();
     if (!token) return rejectWithValue(null);
 
-    return getUserRequest(token).catch((err) => {
+    return authService.getUser(token).catch((err) => {
       dispatch(push("Ошибка при авторизации: " + err.message));
       return rejectWithValue(null);
     });
@@ -26,7 +24,8 @@ export const tryToLoginWithSavedToken = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (payload: LoginPayload, { rejectWithValue, dispatch }) =>
-    loginUserRequest(payload)
+    authService
+      .login(payload)
       .then((accessToken) => {
         if (!accessToken) throw new Error("Token is empty");
         tokenService.setAccessToken(accessToken);
@@ -41,7 +40,8 @@ export const loginUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (payload: RegisterPayload, { rejectWithValue, dispatch }) =>
-    registerUserRequest(payload)
+    authService
+      .register(payload)
       .then((token) => {
         if (!token) throw new Error("Token is empty");
         tokenService.setAccessToken(token);
