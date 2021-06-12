@@ -1,11 +1,14 @@
 import Layout from "@components/Layout";
-import { Link, Typography } from "@material-ui/core";
+import Section from "@components/Section";
+import { Button, Link, Typography } from "@material-ui/core";
 import { LOGIN_ROUTE } from "@root/lib/routes";
+import { logout } from "@root/lib/slices/auth";
 import NextLink from "next/link";
-import { useSelector } from "../../lib/store-hooks";
+import { useSelector, useDispatch } from "../../lib/store-hooks";
 
 const Profile = () => {
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const title = user
     ? user.firstname + " " + user.lastname
     : "Не выполнен вход в аккаунт";
@@ -13,25 +16,21 @@ const Profile = () => {
   return (
     <Layout title={title}>
       {user ? (
-        <>
-          <Typography>Страница профиля</Typography>
-          <Typography>
+        <Section title="Страница профиля">
+          <Typography variant="h2">
             {user.firstname} {user.lastname}
           </Typography>
-        </>
+          <Button onClick={() => dispatch(logout())}>Выйти из аккаунта</Button>
+        </Section>
       ) : (
         <Typography>
           Не выполнен вход в аккаунт. Вы можете{" "}
           <NextLink href={LOGIN_ROUTE.href}>
-            <a>
-              <Link>Войти в аккаунт</Link>
-            </a>
+            <Link>Войти в аккаунт</Link>
           </NextLink>{" "}
           или{" "}
           <NextLink href="/">
-            <a>
-              <Link>Вернуться на главную</Link>
-            </a>
+            <Link>Вернуться на главную</Link>
           </NextLink>
           .
         </Typography>

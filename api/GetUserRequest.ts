@@ -4,14 +4,10 @@ import axios from "axios";
 
 const getUserRequest = (token: string) => {
   return axios
-    .get(`${SERVER_URL}/request-user`, {
+    .get<User[]>(`${SERVER_URL}/request-user`, {
       params: { token },
     })
-
-    .then((res) => {
-      console.log(res);
-      return res;
-    });
+    .then((res) => res.data[0]);
 };
 
 export default getUserRequest;

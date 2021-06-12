@@ -74,7 +74,7 @@ const RoomPage = ({ room }: RoomPageProps) => {
             className={classes.carousel}
           >
             {room.images.map((img) => (
-              <img src={img} className={classes.img} />
+              <img src={img} className={classes.img} key={img} />
             ))}
           </Carousel>
         </Grid>

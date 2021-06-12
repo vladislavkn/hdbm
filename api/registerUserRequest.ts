@@ -6,7 +6,7 @@ const registerUserRequest = (payload: RegisterPayload) =>
   axios
     .post(`${SERVER_URL}/register`, payload)
     .then((res) => {
-      console.log("Got response: ", res);
+      console.log("Got register response: ", res);
       return res;
     })
     .then((res) => res.data.token);

@@ -16,10 +16,23 @@ export type Room = {
   rating: number;
   reviews: number;
   images: string[];
-  hotel: Hotel;
   price: number;
   adress: Adress;
   id: ID;
+};
+
+export type roomDTO = {
+  adress: string;
+  description: string;
+  hotel_id: number;
+  photos: string[];
+  places: number;
+  price: number;
+  rating: number;
+  reviews: number;
+  room_id: ID;
+  room_name: string;
+  services: number;
 };
 
 export type RoomFilterRecord = {

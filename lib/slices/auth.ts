@@ -22,7 +22,9 @@ export const tryToLoginWithSavedToken = createAsyncThunk(
     } else console.log("Got token: " + token);
 
     try {
-      return await getUserRequest(token);
+      const userData = await getUserRequest(token);
+      console.log(`Logged in as ${userData.firstname} ${userData.lastname}`);
+      return userData;
     } catch (e) {
       console.error(e);
       dispatch(push("Ошибка при авторизации: " + e.message));
@@ -84,7 +86,8 @@ const auth = createSlice({
     loading: false as boolean,
   },
   reducers: {
-    unsetUser(state) {
+    logout(state) {
+      localStorage.removeItem("token");
       state.user = null;
     },
   },
@@ -114,6 +117,6 @@ const auth = createSlice({
   },
 });
 
-export const { unsetUser } = auth.actions;
+export const { logout } = auth.actions;
 
 export default auth.reducer;

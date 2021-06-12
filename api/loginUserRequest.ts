@@ -6,7 +6,7 @@ const loginUserRequest = (payload: LoginPayload) =>
   axios
     .post(`${SERVER_URL}/login`, payload)
     .then((res) => {
-      console.log("Got response: ", res);
+      console.log("Got login response: ", res);
       return res;
     })
     .then((res) => res.data.token);
