@@ -5,14 +5,14 @@ const authService = {
   login(payload: LoginPayload) {
     return httpService.request
       .post("/login", payload)
-      .then(httpService.handleNotStatusError)
+      .then(httpService.catchNotStatusError)
       .then((res) => res.data.token)
       .catch(httpService.handleError);
   },
   register(payload: RegisterPayload) {
     return httpService.request
       .post("/register", payload)
-      .then(httpService.handleNotStatusError)
+      .then(httpService.catchNotStatusError)
       .then((res) => res.data.token)
       .catch(httpService.handleError);
   },
@@ -21,7 +21,7 @@ const authService = {
       .get<User[]>("/request-user", {
         params: { token },
       })
-      .then(httpService.handleNotStatusError)
+      .then(httpService.catchNotStatusError)
       .then((res) => res.data[0])
       .catch(httpService.handleError);
   },
