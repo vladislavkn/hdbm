@@ -5,78 +5,52 @@ import registerUserRequest from "@root/api/registerUserRequest";
 import { push } from "./notifications";
 import getUserRequest from "@root/api/GetUserRequest";
 import { RootState } from "../store";
+import { getAccessToken, setAccessToken } from "../tokenService";
 
 export const tryToLoginWithSavedToken = createAsyncThunk(
   "auth/tryToLoginWithSavedToken",
   async (_, { dispatch, getState, rejectWithValue }) => {
-    console.group("Try to login with saved token");
-    const user = (getState() as RootState).auth.user;
-    if (user) {
-      console.log("Already logged in:", user);
-      return rejectWithValue(null);
-    }
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.log("Token is empty");
-      return rejectWithValue(null);
-    } else console.log("Got token: " + token);
+    // Check if user is already logged in
+    if ((getState() as RootState).auth.user) return rejectWithValue(null);
 
-    try {
-      const userData = await getUserRequest(token);
-      console.log(`Logged in as ${userData.firstname} ${userData.lastname}`);
-      return userData;
-    } catch (e) {
-      console.error(e);
-      dispatch(push("Ошибка при авторизации: " + e.message));
-      return;
-    } finally {
-      console.groupEnd();
-    }
+    const token = getAccessToken();
+    if (!token) return rejectWithValue(null);
+
+    return getUserRequest(token).catch((err) => {
+      dispatch(push("Ошибка при авторизации: " + err.message));
+      return rejectWithValue(null);
+    });
   }
 );
 
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async (payload: LoginPayload, { rejectWithValue, dispatch }) => {
-    console.group("Login request");
-    console.log("Payload:", payload);
-    try {
-      const token = await loginUserRequest(payload);
-      if (!token) throw new Error("Token is empty");
-
-      localStorage.setItem("token", token);
-      console.log("Got token:", token);
-      return dispatch(tryToLoginWithSavedToken());
-    } catch (e) {
-      console.error(e);
-      dispatch(push("Ошибка при авторизации: " + e.message));
-      return rejectWithValue(null);
-    } finally {
-      console.groupEnd();
-    }
-  }
+  async (payload: LoginPayload, { rejectWithValue, dispatch }) =>
+    loginUserRequest(payload)
+      .then((accessToken) => {
+        if (!accessToken) throw new Error("Token is empty");
+        setAccessToken(accessToken);
+        return dispatch(tryToLoginWithSavedToken());
+      })
+      .catch((err) => {
+        dispatch(push("Ошибка при авторизации: " + err.message));
+        return rejectWithValue(null);
+      })
 );
 
 export const registerUser = createAsyncThunk(
   "auth/register",
-  async (payload: RegisterPayload, { rejectWithValue, dispatch }) => {
-    console.group("Register request");
-    console.log("Payload:", payload);
-    try {
-      const token = await registerUserRequest(payload);
-      if (!token) throw new Error("Token is empty");
-
-      localStorage.setItem("token", token);
-      console.log("Got token:", token);
-      dispatch(tryToLoginWithSavedToken());
-    } catch (e) {
-      console.error(e);
-      dispatch(push("Ошибка при авторизации: " + e.message));
-      return rejectWithValue(null);
-    } finally {
-      console.groupEnd();
-    }
-  }
+  async (payload: RegisterPayload, { rejectWithValue, dispatch }) =>
+    registerUserRequest(payload)
+      .then((token) => {
+        if (!token) throw new Error("Token is empty");
+        setAccessToken(token);
+        return dispatch(tryToLoginWithSavedToken());
+      })
+      .catch((err) => {
+        dispatch(push("Ошибка при авторизации: " + err.message));
+        return rejectWithValue(null);
+      })
 );
 
 const auth = createSlice({
