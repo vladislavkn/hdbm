@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-type UseLoadDataResult<T> = {
+type useLoaderResult<T> = {
   data: T;
   loading: boolean;
   error: Error;
-  reload: () => void;
+  refresh: () => void;
 };
 
-const useLoadData = <T>(
+const useLoader = <T>(
   loader: () => Promise<T>,
   defaultState: T
-): UseLoadDataResult<T> => {
+): useLoaderResult<T> => {
   const [data, setData] = useState<T>(defaultState);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -19,20 +19,17 @@ const useLoadData = <T>(
     setLoading(true);
     setError(null);
 
-    try {
-      setData(await loader());
-    } catch (e) {
-      setError(e);
-    } finally {
-      setLoading(false);
-    }
+    loader()
+      .then((data) => setData(data))
+      .catch((e) => setError(e))
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
     executeLoad();
   }, []);
 
-  return { data, loading, error, reload: executeLoad };
+  return { data, loading, error, refresh: executeLoad };
 };
 
-export default useLoadData;
+export default useLoader;

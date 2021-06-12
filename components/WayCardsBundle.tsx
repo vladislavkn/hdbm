@@ -3,7 +3,7 @@ import { Alert } from "@material-ui/lab";
 import getWays from "@root/api/getWays";
 import { fakeWays } from "@root/lib/fake";
 import { Way } from "@root/lib/types";
-import useLoadData from "@root/lib/hooks/useLoadData";
+import useLoader from "@root/lib/hooks/useLoader";
 import { useMemo } from "react";
 import Carousel from "react-material-ui-carousel";
 import WayCard from "./WayCard";
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const WayCardsBundle = () => {
   const classes = useStyles();
-  const { data, loading, error } = useLoadData<Way[]>(getWays, []);
+  const { data, loading, error } = useLoader<Way[]>(getWays, []);
 
   const wayCards = useMemo(
     () => data.map((way) => <WayCard way={way} key={way.id} />),

@@ -1,7 +1,7 @@
 import { CircularProgress, Grid } from "@material-ui/core";
 import getRooms from "@root/api/getRooms";
 import { Room, RoomFilterRecord } from "@root/lib/types";
-import useLoadData from "@root/lib/hooks/useLoadData";
+import useLoader from "@root/lib/hooks/useLoader";
 import Error from "./Error";
 import RoomCard from "./RoomCard";
 
@@ -10,7 +10,7 @@ type SearchRoomsResultsProps = {
 };
 
 const SearchRoomsResults = ({ filterRecord }: SearchRoomsResultsProps) => {
-  const { data, loading, error } = useLoadData<Room[]>(
+  const { data, loading, error } = useLoader<Room[]>(
     () => getRooms(filterRecord),
     []
   );
