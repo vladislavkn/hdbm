@@ -1,5 +1,3 @@
-import axios from "axios";
-import { SERVER_URL } from "../constants";
 import { ID, Room, RoomFilterRecord } from "../types";
 import httpService from "./httpService";
 
@@ -20,7 +18,7 @@ type RoomDTO = {
 const roomsService = {
   loadAllRooms(filterRecord: RoomFilterRecord) {
     return httpService.request
-      .get<RoomDTO[]>(SERVER_URL + "/room", {
+      .get<RoomDTO[]>("/room", {
         params: filterRecord,
       })
       .then(httpService.catchNotStatusError)
