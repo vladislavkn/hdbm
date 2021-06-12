@@ -9,7 +9,7 @@ type HttpService = {
   handleError: (e: Error) => void;
   setAuthHeader: (token: string) => void;
   unsetAuthHeader: () => void;
-  handleNotStatusError: (Response: AxiosResponse) => AxiosResponse;
+  catchNotStatusError: (Response: AxiosResponse) => AxiosResponse;
 };
 
 const httpService: HttpService = {
@@ -27,7 +27,7 @@ const httpService: HttpService = {
   unsetAuthHeader() {
     delete this.request.defaults.headers.common["Authorization"];
   },
-  handleNotStatusError(response) {
+  catchNotStatusError(response) {
     if (response.data.message) throw new Error(response.data.message);
     return response;
   },
