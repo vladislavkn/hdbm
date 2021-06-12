@@ -8,14 +8,19 @@ import store from "@root/lib/store";
 import { Provider } from "react-redux";
 import "@root/styles/globals.css";
 import MessagesBundle from "@components/MessagesBundle";
-import UserLoginAfterReload from "@components/UserLoginAfterReload";
+import { useDispatch } from "@root/lib/hooks/typedStoreHooks";
+import { tryToLoginWithSavedToken } from "@root/lib/slices/auth";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    // Clear server stylesheets
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) jssStyles.parentElement.removeChild(jssStyles);
+    // Auto login
+    dispatch(tryToLoginWithSavedToken());
   }, []);
 
   return (
@@ -29,7 +34,6 @@ export default function MyApp(props: AppProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Provider store={store}>
-          <UserLoginAfterReload />
           <Component {...pageProps} />
           <MessagesBundle />
         </Provider>
