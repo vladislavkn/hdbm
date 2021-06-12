@@ -23,13 +23,13 @@ const roomsService = {
       .get<RoomDTO[]>(SERVER_URL + "/room", {
         params: filterRecord,
       })
-      .then(httpService.handleNotStatusError)
+      .then(httpService.catchNotStatusError)
       .then((res) => res.data.map(this._transformRoomDataFromDTO));
   },
   getRoomById(id: ID) {
     return httpService.request
       .get<RoomDTO[]>(`/room/${id}`)
-      .then(httpService.handleNotStatusError)
+      .then(httpService.catchNotStatusError)
       .then((res) => res.data[0])
       .then(this._transformRoomDataFromDTO)
       .catch(httpService.handleError);

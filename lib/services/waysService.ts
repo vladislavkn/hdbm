@@ -12,7 +12,7 @@ const waysService = {
   loadAllWays() {
     return httpService.request
       .get<WayDTO[]>("/")
-      .then(httpService.handleNotStatusError)
+      .then(httpService.catchNotStatusError)
       .then((res) => res.data.map(this._transformWayDataFromDTO));
   },
   _transformWayDataFromDTO(wayDTO: WayDTO) {
