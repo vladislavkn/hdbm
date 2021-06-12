@@ -18,7 +18,7 @@ type RoomDTO = {
 };
 
 const roomsService = {
-  getAllRooms(filterRecord: RoomFilterRecord) {
+  loadAllRooms(filterRecord: RoomFilterRecord) {
     return httpService.request
       .get<RoomDTO[]>(SERVER_URL + "/room", {
         params: filterRecord,

@@ -11,7 +11,7 @@ type SearchRoomsResultsProps = {
 
 const SearchRoomsResults = ({ filterRecord }: SearchRoomsResultsProps) => {
   const { data, loading, error } = useLoader<Room[]>(
-    () => roomsService.getAllRooms(filterRecord),
+    () => roomsService.loadAllRooms(filterRecord),
     []
   );
 
