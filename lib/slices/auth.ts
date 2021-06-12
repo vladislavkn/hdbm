@@ -5,7 +5,7 @@ import registerUserRequest from "@root/api/registerUserRequest";
 import { push } from "./notifications";
 import getUserRequest from "@root/api/GetUserRequest";
 import { RootState } from "../store";
-import { getAccessToken, setAccessToken } from "../tokenService";
+import tokenService from "../services/tokenService";
 
 export const tryToLoginWithSavedToken = createAsyncThunk(
   "auth/tryToLoginWithSavedToken",
@@ -13,7 +13,7 @@ export const tryToLoginWithSavedToken = createAsyncThunk(
     // Check if user is already logged in
     if ((getState() as RootState).auth.user) return rejectWithValue(null);
 
-    const token = getAccessToken();
+    const token = tokenService.getAccessToken();
     if (!token) return rejectWithValue(null);
 
     return getUserRequest(token).catch((err) => {
@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk(
     loginUserRequest(payload)
       .then((accessToken) => {
         if (!accessToken) throw new Error("Token is empty");
-        setAccessToken(accessToken);
+        tokenService.setAccessToken(accessToken);
         return dispatch(tryToLoginWithSavedToken());
       })
       .catch((err) => {
@@ -44,7 +44,7 @@ export const registerUser = createAsyncThunk(
     registerUserRequest(payload)
       .then((token) => {
         if (!token) throw new Error("Token is empty");
-        setAccessToken(token);
+        tokenService.setAccessToken(token);
         return dispatch(tryToLoginWithSavedToken());
       })
       .catch((err) => {
