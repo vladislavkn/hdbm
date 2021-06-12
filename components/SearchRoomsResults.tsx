@@ -2,7 +2,7 @@ import { CircularProgress, Grid } from "@material-ui/core";
 import getRooms from "@root/api/getRooms";
 import { Room, RoomFilterRecord } from "@root/lib/types";
 import useLoader from "@root/lib/hooks/useLoader";
-import Error from "./Error";
+import DisplayError from "./DisplayError";
 import RoomCard from "./RoomCard";
 
 type SearchRoomsResultsProps = {
@@ -17,7 +17,7 @@ const SearchRoomsResults = ({ filterRecord }: SearchRoomsResultsProps) => {
 
   if (loading) return <CircularProgress />;
 
-  if (error) return <Error message={error.message} />;
+  if (error) return <DisplayError message={error.message} />;
 
   return (
     <Grid container spacing={2}>

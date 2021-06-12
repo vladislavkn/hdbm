@@ -4,10 +4,10 @@ type errorProps = {
   message: string;
 };
 
-const Error = ({ message }: errorProps) => (
+const DisplayError = ({ message }: errorProps) => (
   <Alert severity="error">
     Ошибка: <pre style={{ display: "inline" }}>{message}</pre>
   </Alert>
 );
 
-export default Error;
+export default DisplayError;

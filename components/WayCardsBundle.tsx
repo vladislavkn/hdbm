@@ -7,6 +7,7 @@ import useLoader from "@root/lib/hooks/useLoader";
 import { useMemo } from "react";
 import Carousel from "react-material-ui-carousel";
 import WayCard from "./WayCard";
+import DisplayError from "./DisplayError";
 
 const useStyles = makeStyles((theme: Theme) => ({
   carouselDisplay: {
@@ -31,12 +32,7 @@ const WayCardsBundle = () => {
   );
 
   if (loading) return <CircularProgress />;
-  if (error)
-    return (
-      <Alert severity="error">
-        Ошибка: <pre style={{ display: "inline" }}>{error.message}</pre>
-      </Alert>
-    );
+  if (error) return <DisplayError message={error.message} />;
 
   return (
     <>
