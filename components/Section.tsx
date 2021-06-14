@@ -11,9 +11,12 @@ type SectionProps = {
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
     maxWidth: "100%",
-    fontWeight: "bold",
-    fontSize: "2rem",
+    fontWeight: 500,
+    fontSize: "1.8rem",
     marginBottom: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1.5rem",
+    },
   },
   section: {
     "&:not(:last-child)": {
@@ -23,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Section = (props: SectionProps) => {
-  const { title, children, mainHeader = false, noDivider = false } = props;
+  const { title, children, mainHeader = false } = props;
   const classes = useStyles();
 
   return (
