@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import { Box, colors, IconButton } from "@material-ui/core";
+import { Box, colors } from "@material-ui/core";
 import Image from "next/image";
 import Link from "next/link";
 import DesktopNavigationLink from "./DesktopNavigationLink";
@@ -13,12 +13,12 @@ import {
 } from "@root/lib/routes";
 import DrawerMenu from "./DrawerMenu";
 import WithAuth from "./WithAuth";
+import useScrollHeight from "@root/lib/hooks/useScrollHeight";
 
 const useStyles = makeStyles({
   appBar: {
     backgroundColor: "white",
     color: colors.grey[700],
-    borderBottom: "1px solid " + colors.grey[300],
   },
   logo: {
     alignItems: "center",
@@ -33,10 +33,15 @@ const useStyles = makeStyles({
 
 const Navigation = () => {
   const classes = useStyles();
+  const scrollHeight = useScrollHeight();
 
   return (
     <>
-      <AppBar position="fixed" elevation={0} className={classes.appBar}>
+      <AppBar
+        position="fixed"
+        elevation={scrollHeight > 0 ? 3 : 0}
+        className={classes.appBar}
+      >
         <Toolbar>
           <DrawerMenu />
           <Box className={classes.logo}>
