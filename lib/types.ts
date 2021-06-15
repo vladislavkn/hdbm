@@ -29,11 +29,8 @@ export type RoomFilterRecord = {
 };
 
 export type Way = {
-  imageUrl: string;
+  image: string;
   title: string;
-  text: string;
-  href: string;
-  objectsCount: number;
   id: ID;
 };
 

@@ -1,22 +1,24 @@
-import { CircularProgress, Grid, makeStyles, Theme } from "@material-ui/core";
+import {
+  CircularProgress,
+  Grid,
+  makeStyles,
+  Theme,
+  Box,
+} from "@material-ui/core";
 import { Way } from "@root/lib/types";
 import useLoader from "@root/lib/hooks/useLoader";
-import { useMemo } from "react";
-import Carousel from "react-material-ui-carousel";
 import WayCard from "./WayCard";
 import DisplayError from "./DisplayError";
 import waysService from "@root/lib/services/waysService";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  carouselDisplay: {
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
+const useStyles = makeStyles((_: Theme) => ({
+  container: {
+    flexWrap: "nowrap",
+    overflow: "auto",
+    alignItems: "stretch",
   },
-  gridDisplay: {
-    [theme.breakpoints.down("xs")]: {
-      display: "none",
-    },
+  item: {
+    flexShrink: 1,
   },
 }));
 
@@ -27,32 +29,17 @@ const WayCardsBundle = () => {
     []
   );
 
-  const wayCards = useMemo(
-    () => data.map((way) => <WayCard way={way} key={way.id} />),
-    [data]
-  );
-
   if (loading) return <CircularProgress />;
   if (error) return <DisplayError message={error.message} />;
 
   return (
-    <>
-      <Carousel
-        animation="slide"
-        autoPlay={false}
-        navButtonsAlwaysInvisible
-        className={classes.carouselDisplay}
-      >
-        {wayCards}
-      </Carousel>
-      <Grid container spacing={2} className={classes.gridDisplay}>
-        {data.map(({ id }, i) => (
-          <Grid item sm={6} md={3} key={id}>
-            {wayCards[i]}
-          </Grid>
-        ))}
-      </Grid>
-    </>
+    <Grid container spacing={4} className={classes.container}>
+      {data.map((way) => (
+        <Grid item className={classes.item} key={way.id}>
+          <WayCard way={way} href={`/search?way_id=${way.id}`} />
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

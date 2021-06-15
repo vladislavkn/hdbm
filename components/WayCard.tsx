@@ -1,6 +1,5 @@
 import {
   Box,
-  CardActionArea,
   CardMedia,
   colors,
   makeStyles,
@@ -12,65 +11,59 @@ import Link from "next/link";
 
 type WayCardProps = {
   way: Way;
+  href: string;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
   media: {
-    height: 192,
-    borderRadius: 4,
+    height: 128,
+    width: 128,
+    borderRadius: 16,
+    [theme.breakpoints.down("sm")]: {
+      width: 84,
+      height: 84,
+    },
   },
   content: {
-    padding: theme.spacing(2, 1),
-  },
-  header: {
-    display: "flex",
-    alignItems: "center",
+    padding: theme.spacing(1),
   },
   title: {
     fontWeight: "bold",
+    textAlign: "center",
   },
-  dot: {
-    width: 4,
-    height: 4,
-    borderRadius: "50%",
-    backgroundColor: colors.grey[300],
-    margin: "0 4px",
+  container: {
+    display: "flex",
+    alignItems: "center",
+    width: 128,
+
+    flexDirection: "column",
+    [theme.breakpoints.down("sm")]: {
+      width: 84,
+    },
   },
 }));
 
 const WayCard = (props: WayCardProps) => {
   const classes = useStyles();
-  const { imageUrl, title, text, href, objectsCount } = props.way;
+  const {
+    way: { image, title },
+    href,
+  } = props;
 
   return (
     <Link href={href}>
-      <CardActionArea>
-        <CardMedia image={imageUrl} className={classes.media} />
+      <Box className={classes.container}>
+        <CardMedia image={image} className={classes.media} />
         <Box className={classes.content}>
-          <Box className={classes.header}>
-            <Typography
-              variant="subtitle1"
-              component="h2"
-              className={classes.title}
-            >
-              {title}
-            </Typography>
-            <span className={classes.dot}></span>
-            <Typography variant="caption" color="textSecondary">
-              {objectsCount} объект
-              {[2, 3, 4].includes(objectsCount % 10)
-                ? "а"
-                : [5, 6, 7, 8, 9, 0].includes(objectsCount % 10)
-                ? "ов"
-                : ""}
-            </Typography>
-          </Box>
-
-          <Typography variant="body1" component="p">
-            {text}
+          <Typography
+            variant="subtitle1"
+            component="h2"
+            className={classes.title}
+          >
+            {title}
           </Typography>
         </Box>
-      </CardActionArea>
+      </Box>
     </Link>
   );
 };

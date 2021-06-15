@@ -15,13 +15,10 @@ const waysService = {
       .then(httpService.catchNotStatusError)
       .then((res) => res.data.map(this._transformWayDataFromDTO));
   },
-  _transformWayDataFromDTO(wayDTO: WayDTO) {
+  _transformWayDataFromDTO(wayDTO: WayDTO): Way {
     return {
-      imageUrl: wayDTO.photo_url,
+      image: wayDTO.photo_url,
       title: wayDTO.way_name,
-      text: wayDTO.way_description,
-      href: `/search?way_id=${wayDTO.way_id}`,
-      objectsCount: 0,
       id: wayDTO.way_id,
     };
   },
