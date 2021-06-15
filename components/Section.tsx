@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   section: {
-    padding: theme.spacing(2, 2, 1),
+    padding: theme.spacing(2, 0, 1),
   },
   sectionDark: {
     background: colors.grey[50],

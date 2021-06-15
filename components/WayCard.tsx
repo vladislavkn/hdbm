@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(1),
   },
   title: {
-    fontWeight: "bold",
+    fontWeight: 500,
+    lineHeight: "1.2",
     textAlign: "center",
   },
   container: {
