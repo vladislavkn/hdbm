@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     width: 128,
-
+    cursor: "pointer",
     flexDirection: "column",
     [theme.breakpoints.down("sm")]: {
       width: 84,
