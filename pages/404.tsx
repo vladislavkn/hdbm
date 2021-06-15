@@ -1,12 +1,11 @@
 import Centered from "@components/Centered";
 import Layout from "@components/Layout";
 import {
-  Grid,
-  Box,
   makeStyles,
   Typography,
   Link,
   colors,
+  CardContent,
 } from "@material-ui/core";
 import { useRouter } from "next/router";
 
@@ -32,33 +31,35 @@ const Login = () => {
   const { back, push } = useRouter();
 
   return (
-    <Layout smallTopPadding title="Ошибка 404">
+    <Layout title="Ошибка 404">
       <Centered
         containerClassName={classes.center}
         contentClassName={classes.centeredItem}
       >
-        <Typography
-          variant="h1"
-          component="h2"
-          className={classes.error}
-          gutterBottom
-        >
-          Error
-          <br />
-          404:(
-        </Typography>
-        <Typography variant="subtitle1">
-          Упс, это страница почему-то не работает. Пока мы исправляем проблему,
-          вы можете{" "}
-          <Link className={classes.link} onClick={back}>
-            вернуться назад
-          </Link>{" "}
-          или{" "}
-          <Link className={classes.link} onClick={() => push("/")}>
-            перейти на главную страницу
-          </Link>
-          .
-        </Typography>
+        <CardContent>
+          <Typography
+            variant="h1"
+            component="h2"
+            className={classes.error}
+            gutterBottom
+          >
+            Error
+            <br />
+            404:(
+          </Typography>
+          <Typography variant="subtitle1">
+            Упс, это страница почему-то не работает. Пока мы исправляем
+            проблему, вы можете{" "}
+            <Link className={classes.link} onClick={back}>
+              вернуться назад
+            </Link>{" "}
+            или{" "}
+            <Link className={classes.link} onClick={() => push("/")}>
+              перейти на главную страницу
+            </Link>
+            .
+          </Typography>
+        </CardContent>
       </Centered>
     </Layout>
   );
