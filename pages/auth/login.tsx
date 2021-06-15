@@ -18,7 +18,7 @@ const Login = () => {
   const classes = useStyles();
 
   return (
-    <Layout smallTopPadding title="Войти в аккаунт">
+    <Layout title="Войти в аккаунт">
       <Centered
         containerClassName={classes.center}
         contentClassName={classes.centeredItem}

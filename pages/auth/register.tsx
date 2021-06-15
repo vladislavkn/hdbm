@@ -18,7 +18,7 @@ const Register = () => {
   const classes = useStyles();
 
   return (
-    <Layout smallTopPadding title="Зарегестрироваться">
+    <Layout title="Зарегестрироваться">
       <Centered
         containerClassName={classes.center}
         contentClassName={classes.centeredItem}
