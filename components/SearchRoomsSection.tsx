@@ -12,6 +12,7 @@ import { fakeDefaultFilterRecord } from "@root/lib/fake";
 import { RoomFilterRecord } from "@root/lib/types";
 import { useState, useReducer } from "react";
 import SearchRoomsResults from "./SearchRoomsResults";
+import { joinClasses } from "@root/lib/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
   filterResults: {
@@ -56,13 +57,13 @@ const SearchRoomsSection = ({ title }: SearchRoomsSectionProps) => {
         </ButtonBase>
       }
     >
-      <div className={!isFilterShown && classes.filterHidden}>
+      <div className={joinClasses(!isFilterShown && classes.filterHidden)}>
         <Filter
           onChange={setFilterRecord}
           defaultRecord={fakeDefaultFilterRecord}
         />
       </div>
-      <div className={isFilterShown && classes.filterResults}>
+      <div className={joinClasses(isFilterShown && classes.filterResults)}>
         <SearchRoomsResults filterRecord={filterRecord} />
       </div>
     </Section>
