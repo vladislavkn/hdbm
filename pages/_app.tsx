@@ -7,7 +7,7 @@ import Head from "next/head";
 import store from "@root/lib/store";
 import { Provider } from "react-redux";
 import "@root/styles/globals.css";
-import MessagesBundle from "@components/MessagesBundle";
+import NotificationsSnacbar from "@components/NotificationsSnacbar";
 import { tryToLoginWithSavedToken } from "@root/lib/slices/auth";
 
 export default function MyApp(props: AppProps) {
@@ -33,7 +33,7 @@ export default function MyApp(props: AppProps) {
         <CssBaseline />
         <Provider store={store}>
           <Component {...pageProps} />
-          <MessagesBundle />
+          <NotificationsSnacbar />
         </Provider>
       </ThemeProvider>
     </>

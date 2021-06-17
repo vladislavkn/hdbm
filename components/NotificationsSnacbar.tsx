@@ -3,7 +3,7 @@ import { Close } from "@material-ui/icons";
 import { remove } from "@root/lib/slices/notifications";
 import { useSelector, useDispatch } from "@root/lib/hooks/typedStoreHooks";
 
-const MessagesBundle = () => {
+const NotificationsSnacbar = () => {
   const message = useSelector((state) => state.notifications.messages[0]);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(remove(message.id));
@@ -35,4 +35,4 @@ const MessagesBundle = () => {
   return null;
 };
 
-export default MessagesBundle;
+export default NotificationsSnacbar;
