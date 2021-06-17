@@ -17,7 +17,12 @@ const SearchRoomsResults = ({ filterRecord }: SearchRoomsResultsProps) => {
 
   useEffect(() => {
     mutate();
-  }, [filterRecord.toString()]);
+  }, [
+    filterRecord.city,
+    filterRecord.from,
+    filterRecord.to,
+    filterRecord.places,
+  ]);
 
   if (error) return <DisplayError message={error.message} />;
   if (!data) return <CircularProgress />;
