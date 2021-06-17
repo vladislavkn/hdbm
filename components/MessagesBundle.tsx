@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "@root/lib/hooks/typedStoreHooks";
 const MessagesBundle = () => {
   const message = useSelector((state) => state.notifications.messages[0]);
   const dispatch = useDispatch();
-  const handleClose = (id) => dispatch(remove(id));
+  const handleClose = () => dispatch(remove(message.id));
 
   if (message)
     return (
@@ -18,14 +18,14 @@ const MessagesBundle = () => {
         }}
         open={true}
         autoHideDuration={6000}
-        onClose={() => handleClose(message.id)}
+        onClose={handleClose}
         message={message.text}
         action={
           <IconButton
             size="small"
             aria-label="close"
             color="inherit"
-            onClick={() => handleClose(message.id)}
+            onClick={handleClose}
           >
             <Close fontSize="small" />
           </IconButton>
