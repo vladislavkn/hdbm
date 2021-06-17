@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import "@root/styles/globals.css";
 import NotificationsSnacbar from "@components/NotificationsSnacbar";
 import { tryToLoginWithSavedToken } from "@root/lib/slices/auth";
+import ErrorBoundary from "@components/ErrorBoundary";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -31,10 +32,12 @@ export default function MyApp(props: AppProps) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Provider store={store}>
-          <Component {...pageProps} />
-          <NotificationsSnacbar />
-        </Provider>
+        <ErrorBoundary>
+          <Provider store={store}>
+            <Component {...pageProps} />
+            <NotificationsSnacbar />
+          </Provider>
+        </ErrorBoundary>
       </ThemeProvider>
     </>
   );
