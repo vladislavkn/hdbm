@@ -1,9 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { makeStyles, Theme } from "@material-ui/core";
 import Layout from "@components/Layout";
-import SearchRoomsBundle from "@components/SearchRoomsBundle";
-import Section from "@components/Section";
+import SearchRoomsSection from "@components/SearchRoomsSection";
 
 const Search = () => {
   const { query } = useRouter();
@@ -13,9 +11,7 @@ const Search = () => {
 
   return (
     <Layout title="HDBM: поиск отелей">
-      <Section title="Поиск отелей">
-        <SearchRoomsBundle />
-      </Section>
+      <SearchRoomsSection title="Поиск отелей" />
     </Layout>
   );
 };

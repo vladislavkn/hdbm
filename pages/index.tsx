@@ -1,6 +1,6 @@
 import Layout from "@components/Layout";
 import Section from "@components/Section";
-import SearchRoomsBundle from "@components/SearchRoomsBundle";
+import SearchRoomsSection from "@components/SearchRoomsSection";
 import WayCardsBundle from "@components/WayCardsBundle";
 
 export default function Home() {
@@ -9,9 +9,7 @@ export default function Home() {
       <Section title="Популярные направления" dark>
         <WayCardsBundle />
       </Section>
-      <Section title="Подобрать отель">
-        <SearchRoomsBundle />
-      </Section>
+      <SearchRoomsSection title="Подобрать отель" />
     </Layout>
   );
 }
