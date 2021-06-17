@@ -1,3 +1,5 @@
+/* Types */
+
 export type ID = string | number;
 
 export type Hotel = {
@@ -51,3 +53,8 @@ export type LoginPayload = {
   email: string;
   password: string;
 };
+
+/* Constants */
+
+export const FETCH_WAYS_KEY = "FETCH_WAYS";
+export const FETCH_ROOMS_KEY_PREFIX = "FETCH_ROOMS";

@@ -4,19 +4,21 @@ import useLoader from "@root/lib/hooks/useLoader";
 import DisplayError from "./DisplayError";
 import RoomCard from "./RoomCard";
 import roomsService from "@root/lib/services/roomsService";
+import useSWR from "swr";
+import { generateFetchRoomsKey } from "@root/lib/utils";
 
 type SearchRoomsResultsProps = {
   filterRecord: RoomFilterRecord;
 };
 
 const SearchRoomsResults = ({ filterRecord }: SearchRoomsResultsProps) => {
-  const { data, loading, error } = useLoader<Room[]>(
-    () => roomsService.loadAllRooms(filterRecord),
-    []
+  const { data, error } = useSWR<Room[], Error>(
+    generateFetchRoomsKey(filterRecord),
+    () => roomsService.loadAllRooms(filterRecord)
   );
 
-  if (loading) return <CircularProgress />;
   if (error) return <DisplayError message={error.message} />;
+  if (!data) return <CircularProgress />;
 
   return (
     <Grid container spacing={2}>

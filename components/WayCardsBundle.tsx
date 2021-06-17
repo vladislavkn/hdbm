@@ -5,11 +5,12 @@ import {
   Theme,
   Box,
 } from "@material-ui/core";
-import { Way } from "@root/lib/types";
+import { FETCH_WAYS_KEY, Way } from "@root/lib/types";
 import useLoader from "@root/lib/hooks/useLoader";
 import WayCard from "./WayCard";
 import DisplayError from "./DisplayError";
 import waysService from "@root/lib/services/waysService";
+import useSWR from "swr";
 
 const useStyles = makeStyles((_: Theme) => ({
   container: {
@@ -24,13 +25,12 @@ const useStyles = makeStyles((_: Theme) => ({
 
 const WayCardsBundle = () => {
   const classes = useStyles();
-  const { data, loading, error } = useLoader<Way[]>(
-    () => waysService.loadAllWays(),
-    []
+  const { data, error } = useSWR<Way[], Error>(FETCH_WAYS_KEY, () =>
+    waysService.loadAllWays()
   );
 
-  if (loading) return <CircularProgress />;
   if (error) return <DisplayError message={error.message} />;
+  if (!data) return <CircularProgress />;
 
   return (
     <Grid container spacing={4} className={classes.container}>
