@@ -1,10 +1,4 @@
-import {
-  CircularProgress,
-  Grid,
-  makeStyles,
-  Theme,
-  Box,
-} from "@material-ui/core";
+import { CircularProgress, Grid, makeStyles, Theme } from "@material-ui/core";
 import { FETCH_WAYS_KEY, Way } from "@root/lib/types";
 import WayCard from "./WayCard";
 import DisplayError from "./DisplayError";
