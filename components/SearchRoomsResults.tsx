@@ -1,6 +1,5 @@
 import { CircularProgress, Grid } from "@material-ui/core";
 import { Room, RoomFilterRecord } from "@root/lib/types";
-import useLoader from "@root/lib/hooks/useLoader";
 import DisplayError from "./DisplayError";
 import RoomCard from "./RoomCard";
 import roomsService from "@root/lib/services/roomsService";

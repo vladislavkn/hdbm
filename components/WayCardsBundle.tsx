@@ -6,7 +6,6 @@ import {
   Box,
 } from "@material-ui/core";
 import { FETCH_WAYS_KEY, Way } from "@root/lib/types";
-import useLoader from "@root/lib/hooks/useLoader";
 import WayCard from "./WayCard";
 import DisplayError from "./DisplayError";
 import waysService from "@root/lib/services/waysService";
