@@ -57,4 +57,4 @@ export type LoginPayload = {
 /* Constants */
 
 export const FETCH_WAYS_KEY = "FETCH_WAYS";
-export const FETCH_ROOMS_KEY_PREFIX = "FETCH_ROOMS";
+export const FETCH_ROOMS_KEY = "FETCH_ROOMS";

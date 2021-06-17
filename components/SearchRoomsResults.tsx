@@ -1,20 +1,23 @@
 import { CircularProgress, Grid } from "@material-ui/core";
-import { Room, RoomFilterRecord } from "@root/lib/types";
+import { FETCH_ROOMS_KEY, Room, RoomFilterRecord } from "@root/lib/types";
 import DisplayError from "./DisplayError";
 import RoomCard from "./RoomCard";
 import roomsService from "@root/lib/services/roomsService";
 import useSWR from "swr";
-import { generateFetchRoomsKey } from "@root/lib/utils";
+import { useEffect } from "react";
 
 type SearchRoomsResultsProps = {
   filterRecord: RoomFilterRecord;
 };
 
 const SearchRoomsResults = ({ filterRecord }: SearchRoomsResultsProps) => {
-  const { data, error } = useSWR<Room[], Error>(
-    generateFetchRoomsKey(filterRecord),
-    () => roomsService.loadAllRooms(filterRecord)
+  const { data, error, mutate } = useSWR<Room[], Error>(FETCH_ROOMS_KEY, () =>
+    roomsService.loadAllRooms(filterRecord)
   );
+
+  useEffect(() => {
+    mutate();
+  }, [filterRecord.toString()]);
 
   if (error) return <DisplayError message={error.message} />;
   if (!data) return <CircularProgress />;
