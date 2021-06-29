@@ -15,8 +15,8 @@ const RoomPage = () => {
     query: { id },
   } = useRouter();
 
-  const { data, error } = useSWR<Room, Error>(FETCH_ROOM_BY_ID, () =>
-    roomsService.getRoomById(id as ID)
+  const { data, error } = useSWR<Room, Error>(FETCH_ROOM_BY_ID + id, () =>
+    roomsService.loadRoomById(id as ID)
   );
 
   return (

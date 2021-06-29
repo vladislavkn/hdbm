@@ -24,13 +24,12 @@ const roomsService = {
       .then(httpService.catchNotStatusError)
       .then((res) => res.data.map(this._transformRoomDataFromDTO));
   },
-  getRoomById(id: ID) {
+  loadRoomById(id: ID) {
     return httpService.request
       .get<RoomDTO[]>(`/room/${id}`)
       .then(httpService.catchNotStatusError)
       .then((res) => res.data[0])
-      .then(this._transformRoomDataFromDTO)
-      .catch(httpService.handleError);
+      .then(this._transformRoomDataFromDTO);
   },
   _transformRoomDataFromDTO(roomDto: RoomDTO): Room {
     return {

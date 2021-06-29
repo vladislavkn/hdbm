@@ -54,6 +54,12 @@ export type LoginPayload = {
   password: string;
 };
 
+export type DateRange = {
+  startDate: Date;
+  endDate: Date;
+  key?: string;
+};
+
 /* Constants */
 
 export const FETCH_WAYS_KEY = "FETCH_WAYS";

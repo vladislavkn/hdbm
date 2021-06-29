@@ -1,11 +1,12 @@
 import { joinClasses, createIfDayDisabledChecker } from "@root/lib/utils";
-import { addDays } from "date-fns";
+import { addDays, subDays, addMonths } from "date-fns";
 import { Grid, Button, Typography, makeStyles, Theme } from "@material-ui/core";
-import { Room } from "@root/lib/types";
+import { Room, DateRange } from "@root/lib/types";
 import Carousel from "react-material-ui-carousel";
 import RoomDatePicker from "@components/RoomDatePicker";
 import { Rating } from "@material-ui/lab";
 import { LocationOnOutlined } from "@material-ui/icons";
+import { useMemo, useState } from "react";
 
 type RoomDataProps = {
   room: Room;
@@ -48,6 +49,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const RoomData = ({ room }: RoomDataProps) => {
   const classes = useStyles();
+  const today = useMemo(() => new Date(), []);
+  const [selectedDates, setSelectedDates] = useState<DateRange>({
+    startDate: today,
+    endDate: today,
+  });
 
   return (
     <Grid container spacing={2} className={classes.content}>
@@ -102,19 +108,23 @@ const RoomData = ({ room }: RoomDataProps) => {
               Выберите дату
             </Typography>
             <RoomDatePicker
-              startDate={new Date()}
-              endDate={new Date(new Date().getTime() + 60 * 60 * 24 * 30)}
+              startDate={selectedDates.startDate}
+              endDate={selectedDates.endDate}
               checkIsDayDisabled={createIfDayDisabledChecker([
                 {
-                  startDate: addDays(new Date(), 2),
-                  endDate: addDays(new Date(), 4),
+                  startDate: addDays(today, 2),
+                  endDate: addDays(today, 4),
                 },
                 {
-                  startDate: addDays(new Date(), 8),
-                  endDate: addDays(new Date(), 15),
+                  startDate: addDays(today, 8),
+                  endDate: addDays(today, 15),
+                },
+                {
+                  startDate: subDays(today, 11),
+                  endDate: subDays(today, 8),
                 },
               ])}
-              onSelect={(from, to) => console.log(from, to)}
+              onSelect={setSelectedDates}
             />
           </Grid>
           <Grid item>
