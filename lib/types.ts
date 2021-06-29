@@ -58,3 +58,4 @@ export type LoginPayload = {
 
 export const FETCH_WAYS_KEY = "FETCH_WAYS";
 export const FETCH_ROOMS_KEY = "FETCH_ROOMS";
+export const FETCH_ROOM_BY_ID = "FETCH_ROOM_BY_ID";

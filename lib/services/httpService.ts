@@ -28,7 +28,8 @@ const httpService: HttpService = {
     delete this.request.defaults.headers.common["Authorization"];
   },
   catchNotStatusError(response) {
-    if (response.data.message) throw new Error(response.data.message);
+    if (response.data?.message || response.data?.status === "error")
+      throw new Error(response.data?.message || "Ошибка на стороне сервера");
     return response;
   },
 };
