@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
-import { notify } from "../slices/notifications";
-import store from "../store";
+import { notify } from "../utils";
 
 const SERVER_URL = process.env.SERVER_URL;
 
@@ -19,7 +18,7 @@ const httpService: HttpService = {
   }),
   handleError(e: AxiosError) {
     const message = e.response ? e.response.data.message : e.message;
-    store.dispatch(notify(`Ошибка: ${message}`));
+    notify(`Ошибка: ${message}`);
   },
   setAuthHeader(header: string) {
     this.request.defaults.headers.common["Authorization"] = header;

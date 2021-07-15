@@ -1,16 +1,14 @@
 import { useSelector } from "@root/lib/hooks/typedStoreHooks";
 import { User } from "@root/lib/types";
 
-type ChildRenderFn = (user: User) => React.ReactChild;
-
 type WithAuthProps = {
-  loggedIn?: ChildRenderFn;
+  user?: (user?: User) => React.ReactChild;
   guest?: React.ReactChild;
 };
 
-const WithAuth = ({ loggedIn, guest }: WithAuthProps) => {
+const WithAuth = ({ user: forUser, guest }: WithAuthProps) => {
   const user = useSelector((state) => state.auth.user);
-  return <>{user ? loggedIn(user) : guest}</>;
+  return <>{user ? forUser(user) : guest}</>;
 };
 
 export default WithAuth;

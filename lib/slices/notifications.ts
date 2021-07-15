@@ -2,9 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ID } from "../types";
 const crypto = require("crypto");
 
-type Message = {
+export type Message = {
   id: ID;
   text: string;
+  autoHide: boolean;
 };
 
 const notifications = createSlice({
@@ -16,7 +17,8 @@ const notifications = createSlice({
     notify(state, { payload }) {
       state.messages.push({
         id: crypto.randomBytes(16).toString("hex"),
-        text: payload,
+        text: payload.text,
+        autoHide: payload.autoHide ?? true,
       });
       return state;
     },

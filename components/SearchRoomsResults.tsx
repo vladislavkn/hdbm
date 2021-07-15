@@ -4,25 +4,16 @@ import DisplayError from "./DisplayError";
 import RoomCard from "./RoomCard";
 import roomsService from "@root/lib/services/roomsService";
 import useSWR from "swr";
-import { useEffect } from "react";
 
 type SearchRoomsResultsProps = {
   filterRecord: RoomFilterRecord;
 };
 
 const SearchRoomsResults = ({ filterRecord }: SearchRoomsResultsProps) => {
-  const { data, error, mutate } = useSWR<Room[], Error>(FETCH_ROOMS_KEY, () =>
-    roomsService.loadAllRooms(filterRecord)
+  const { data, error } = useSWR<Room[], Error>(
+    filterRecord ? [FETCH_ROOMS_KEY, filterRecord] : null,
+    (_, filterRecord) => roomsService.loadAllRooms(filterRecord)
   );
-
-  useEffect(() => {
-    mutate();
-  }, [
-    filterRecord.city,
-    filterRecord.from,
-    filterRecord.to,
-    filterRecord.places,
-  ]);
 
   if (error) return <DisplayError message={error.message} />;
   if (!data) return <CircularProgress />;

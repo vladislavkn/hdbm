@@ -1,33 +1,13 @@
 import AuthController from "@components/AuthController";
-import Centered from "@components/Centered";
-import Layout from "@components/Layout";
+import FormLayout from "@components/FormLayout";
 import LoginForm from "@components/LoginForm";
-import { makeStyles } from "@material-ui/core";
+import React from "react";
 
-const useStyles = makeStyles({
-  center: {
-    height: "100%",
-  },
-  centeredItem: {
-    maxWidth: 360,
-    flex: 1,
-  },
-});
-
-const Login = () => {
-  const classes = useStyles();
-
-  return (
-    <Layout title="Войти в аккаунт">
-      <Centered
-        containerClassName={classes.center}
-        contentClassName={classes.centeredItem}
-      >
-        <LoginForm />
-        <AuthController />
-      </Centered>
-    </Layout>
-  );
-};
+const Login = () => (
+  <FormLayout title="Войти в аккаунт">
+    <LoginForm />
+    <AuthController />
+  </FormLayout>
+);
 
 export default Login;

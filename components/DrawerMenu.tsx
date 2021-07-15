@@ -50,7 +50,7 @@ const DrawerMenu = () => {
         >
           <MobileNavigationLink route={WAYS_ROUTE} />
           <WithAuth
-            loggedIn={() => (
+            user={() => (
               <>
                 <MobileNavigationLink route={BOOKINGS_ROUTE} />
                 <MobileNavigationLink route={PROFILE_ROUTE} />

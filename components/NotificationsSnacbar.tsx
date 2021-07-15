@@ -6,33 +6,33 @@ import { useSelector, useDispatch } from "@root/lib/hooks/typedStoreHooks";
 const NotificationsSnacbar = () => {
   const message = useSelector((state) => state.notifications.messages[0]);
   const dispatch = useDispatch();
-  const handleClose = () => dispatch(remove(message.id));
+  const handleClose = (_, reason?: string) =>
+    reason !== "clickaway" && dispatch(remove(message.id));
 
-  if (message)
-    return (
-      <Snackbar
-        key={message.id}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        open={true}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message={message.text}
-        action={
-          <IconButton
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={handleClose}
-          >
-            <Close fontSize="small" />
-          </IconButton>
-        }
-      />
-    );
-  return null;
+  if (!message) return null;
+
+  return (
+    <Snackbar
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      open={true}
+      autoHideDuration={message.autoHide ? 6000 : null}
+      onClose={handleClose}
+      message={message.text}
+      action={
+        <IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={handleClose}
+        >
+          <Close fontSize="small" />
+        </IconButton>
+      }
+    />
+  );
 };
 
 export default NotificationsSnacbar;

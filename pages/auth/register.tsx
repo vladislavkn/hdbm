@@ -1,33 +1,13 @@
 import AuthController from "@components/AuthController";
-import Centered from "@components/Centered";
-import Layout from "@components/Layout";
+import FormLayout from "@components/FormLayout";
 import RegisterForm from "@components/RegisterForm";
-import { makeStyles } from "@material-ui/core";
+import React from "react";
 
-const useStyles = makeStyles({
-  center: {
-    height: "100%",
-  },
-  centeredItem: {
-    maxWidth: 360,
-    flex: 1,
-  },
-});
-
-const Register = () => {
-  const classes = useStyles();
-
-  return (
-    <Layout title="Зарегестрироваться">
-      <Centered
-        containerClassName={classes.center}
-        contentClassName={classes.centeredItem}
-      >
-        <RegisterForm />
-        <AuthController />
-      </Centered>
-    </Layout>
-  );
-};
+const Register = () => (
+  <FormLayout title="Создать аккаунт">
+    <RegisterForm />
+    <AuthController />
+  </FormLayout>
+);
 
 export default Register;

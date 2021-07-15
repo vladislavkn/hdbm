@@ -24,7 +24,7 @@ class ErrorBoundary extends React.Component<
   render() {
     if (this.state.error)
       return (
-        <Centered>
+        <Centered containerClassName="h-full">
           <DisplayError message={this.state.error.message} />
         </Centered>
       );

@@ -1,12 +1,12 @@
 import { joinClasses, createIfDayDisabledChecker } from "@root/lib/utils";
-import { addDays, subDays, addMonths } from "date-fns";
+import { addDays, subDays } from "date-fns";
 import { Grid, Button, Typography, makeStyles, Theme } from "@material-ui/core";
-import { Room, DateRange } from "@root/lib/types";
+import { Room } from "@root/lib/types";
 import Carousel from "react-material-ui-carousel";
-import RoomDatePicker from "@components/RoomDatePicker";
 import { Rating } from "@material-ui/lab";
 import { LocationOnOutlined } from "@material-ui/icons";
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
+import DateRangeDialog from "./DateRangeDialog";
 
 type RoomDataProps = {
   room: Room;
@@ -33,11 +33,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   about: {
     height: "100%",
   },
-  datePickerParent: {
-    "&>*": {
-      width: "100%",
-    },
-  },
   infoItemShrink: {
     flexShrink: 1,
   },
@@ -50,10 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const RoomData = ({ room }: RoomDataProps) => {
   const classes = useStyles();
   const today = useMemo(() => new Date(), []);
-  const [selectedDates, setSelectedDates] = useState<DateRange>({
-    startDate: today,
-    endDate: today,
-  });
+  const [open, setOpen] = useState(false);
 
   return (
     <Grid container spacing={2} className={classes.content}>
@@ -103,36 +95,13 @@ const RoomData = ({ room }: RoomDataProps) => {
           <Grid item>
             <Typography>{room.description}</Typography>
           </Grid>
-          <Grid item className={classes.datePickerParent}>
-            <Typography variant="h6" gutterBottom>
-              Выберите дату
-            </Typography>
-            <RoomDatePicker
-              startDate={selectedDates.startDate}
-              endDate={selectedDates.endDate}
-              checkIsDayDisabled={createIfDayDisabledChecker([
-                {
-                  startDate: addDays(today, 2),
-                  endDate: addDays(today, 4),
-                },
-                {
-                  startDate: addDays(today, 8),
-                  endDate: addDays(today, 15),
-                },
-                {
-                  startDate: subDays(today, 11),
-                  endDate: subDays(today, 8),
-                },
-              ])}
-              onSelect={setSelectedDates}
-            />
-          </Grid>
           <Grid item>
             <Button
               color="primary"
               variant="contained"
               disableElevation
               fullWidth
+              onClick={() => setOpen(true)}
             >
               Оформить
             </Button>
@@ -144,6 +113,27 @@ const RoomData = ({ room }: RoomDataProps) => {
           </Grid>
         </Grid>
       </Grid>
+      <DateRangeDialog
+        title="Выберите даты"
+        open={open}
+        onClose={() => setOpen(false)}
+        onSubmit={() => console.log("submit")}
+        dateRange={{ startDate: today, endDate: today }}
+        checkIsDayDisabled={createIfDayDisabledChecker([
+          {
+            startDate: addDays(today, 2),
+            endDate: addDays(today, 4),
+          },
+          {
+            startDate: addDays(today, 8),
+            endDate: addDays(today, 15),
+          },
+          {
+            startDate: subDays(today, 11),
+            endDate: subDays(today, 8),
+          },
+        ])}
+      />
     </Grid>
   );
 };

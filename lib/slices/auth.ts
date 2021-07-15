@@ -1,18 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginPayload, RegisterPayload, User } from "../types";
-import { notify } from "./notifications";
 import { RootState } from "../store";
 import tokenService from "../services/tokenService";
 import authService from "../services/authService";
 
 export const tryToLoginWithSavedToken = createAsyncThunk(
   "auth/tryToLoginWithSavedToken",
-  async (_, { dispatch, getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     // Check if user is already logged in
     if ((getState() as RootState).auth.user) return rejectWithValue(null);
 
     const token = tokenService.getAccessToken();
     if (!token) return rejectWithValue(null);
+    tokenService.setAccessToken(token);
 
     return authService.getUser(token).catch(() => rejectWithValue(null));
   }
@@ -63,6 +63,7 @@ const auth = createSlice({
     const onFulfilled = (state, { payload }) => {
       state.loading = false;
       state.user = payload;
+      state.user.hasPassportData = true;
     };
     const onRejected = (state) => {
       state.loading = false;

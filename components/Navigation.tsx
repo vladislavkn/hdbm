@@ -59,7 +59,7 @@ const Navigation = () => {
             </Box>
             <DesktopNavigationLink route={WAYS_ROUTE} />
             <WithAuth
-              loggedIn={() => (
+              user={() => (
                 <>
                   <DesktopNavigationLink route={BOOKINGS_ROUTE} />
                   <DesktopNavigationLink route={PROFILE_ROUTE} />

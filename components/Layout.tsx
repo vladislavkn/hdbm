@@ -26,7 +26,7 @@ const Layout = (props: LayoutProps) => {
         <title>{title}</title>
       </Head>
       {CustomNavigation ? <CustomNavigation /> : <Navigation />}
-      <Box className={joinClasses(classes.container)}>{children}</Box>
+      <Box className={classes.container}>{children}</Box>
     </>
   );
 };

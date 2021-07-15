@@ -31,8 +31,8 @@ export const fakeWays = new Array(4).fill(null).map((_, index) => ({
 }));
 
 export const fakeDefaultFilterRecord: RoomFilterRecord = {
-  from: new Date(),
-  to: new Date(),
-  places: 0,
+  dateRange: { startDate: new Date(), endDate: new Date() },
+  adultPlaces: 0,
+  childPlaces: 0,
   city: "Москва",
 };

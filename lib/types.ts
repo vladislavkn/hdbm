@@ -24,9 +24,9 @@ export type Room = {
 };
 
 export type RoomFilterRecord = {
-  from: Date;
-  to: Date;
-  places: number;
+  dateRange: DateRange;
+  adultPlaces: number;
+  childPlaces: number;
   city: string;
 };
 
@@ -47,6 +47,10 @@ export type RegisterPayload = {
 export type User = {
   firstname: string;
   lastname: string;
+  hasPassportData: boolean;
+  is: "tourist" | "hotelier";
+  id: ID;
+  avatarUrl: string;
 };
 
 export type LoginPayload = {
@@ -58,6 +62,14 @@ export type DateRange = {
   startDate: Date;
   endDate: Date;
   key?: string;
+};
+
+export type PassportData = {
+  number: number;
+  series: number;
+  provider: string;
+  date: Date;
+  file: FileList;
 };
 
 /* Constants */
