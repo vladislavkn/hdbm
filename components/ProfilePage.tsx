@@ -93,7 +93,7 @@ const ProfilePage = ({ user }) => {
             className={classes.attachPasswordBtn}
             onClick={() => router.push("/auth/attach-passport")}
           >
-            Привязать паспорт
+            {user.hasPassportData ? "Обновить паспорт" : "Привязать паспорт"}
           </Button>
           <Button
             variant="outlined"
