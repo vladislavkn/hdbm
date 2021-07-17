@@ -1,12 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginPayload, RegisterPayload, User } from "../types";
+import { LoginPayload, PassportData, RegisterPayload, User } from "../types";
 import { RootState } from "../store";
 import tokenService from "../services/tokenService";
 import authService from "../services/authService";
+import { NextRouter } from "next/router";
+import { notify } from "../utils";
+
+export const fetchUser = createAsyncThunk(
+  "auth/fetch-user",
+  (token: string, { rejectWithValue }) => {
+    if (!token) return rejectWithValue(null);
+    return authService.getUser(token).catch(() => rejectWithValue(null));
+  }
+);
 
 export const tryToLoginWithSavedToken = createAsyncThunk(
   "auth/tryToLoginWithSavedToken",
-  async (_, { getState, rejectWithValue }) => {
+  (_, { getState, rejectWithValue, dispatch }) => {
     // Check if user is already logged in
     if ((getState() as RootState).auth.user) return rejectWithValue(null);
 
@@ -14,13 +24,13 @@ export const tryToLoginWithSavedToken = createAsyncThunk(
     if (!token) return rejectWithValue(null);
     tokenService.setAccessToken(token);
 
-    return authService.getUser(token).catch(() => rejectWithValue(null));
+    return dispatch(fetchUser(token));
   }
 );
 
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async (payload: LoginPayload, { rejectWithValue, dispatch }) =>
+  (payload: LoginPayload, { rejectWithValue, dispatch }) =>
     authService
       .login(payload)
       .then((accessToken) => {
@@ -33,7 +43,7 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
   "auth/register",
-  async (payload: RegisterPayload, { rejectWithValue, dispatch }) =>
+  (payload: RegisterPayload, { rejectWithValue, dispatch }) =>
     authService
       .register(payload)
       .then((token) => {
@@ -42,6 +52,28 @@ export const registerUser = createAsyncThunk(
         return dispatch(tryToLoginWithSavedToken());
       })
       .catch(() => rejectWithValue(null))
+);
+
+export const attachPassport = createAsyncThunk(
+  "auth/attach-passport",
+  (
+    payload: {
+      data: PassportData;
+      router: NextRouter;
+    },
+    { rejectWithValue, dispatch }
+  ) => {
+    const { data, router } = payload;
+    return authService
+      .attachPassport(data)
+      .then((res) => {
+        if (!res) throw new Error("Passport request failed");
+        router.back();
+        notify("Паспорт успешно привязан");
+        return dispatch(fetchUser(tokenService.getAccessToken()));
+      })
+      .catch(() => rejectWithValue(null));
+  }
 );
 
 const auth = createSlice({
@@ -63,7 +95,6 @@ const auth = createSlice({
     const onFulfilled = (state, { payload }) => {
       state.loading = false;
       state.user = payload;
-      state.user.hasPassportData = true;
     };
     const onRejected = (state) => {
       state.loading = false;
@@ -75,11 +106,13 @@ const auth = createSlice({
       .addCase(loginUser.pending, onPending)
       .addCase(tryToLoginWithSavedToken.pending, onPending)
       // Fulfilled
-      .addCase(tryToLoginWithSavedToken.fulfilled, onFulfilled)
+      .addCase(fetchUser.fulfilled, onFulfilled)
       // Rejected
       .addCase(loginUser.rejected, onRejected)
       .addCase(registerUser.rejected, onRejected)
-      .addCase(tryToLoginWithSavedToken.rejected, onRejected);
+      .addCase(tryToLoginWithSavedToken.rejected, onRejected)
+      .addCase(attachPassport.rejected, onRejected)
+      .addCase(fetchUser.rejected, onRejected);
   },
 });
 
