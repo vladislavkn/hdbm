@@ -9,9 +9,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { AttachFileOutlined } from "@material-ui/icons";
-import authService from "@root/lib/services/authService";
+import { useDispatch } from "@root/lib/hooks/typedStoreHooks";
+import { attachPassport } from "@root/lib/slices/auth";
 import { PassportData } from "@root/lib/types";
-import { notify } from "@root/lib/utils";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -47,19 +47,20 @@ const AttachPassportForm = () => {
   const fileInputRegistered = register("file");
   const [filename, setFilename] = useState<false | string>(false);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleFilenameChange = (e) => {
     setFilename(e.target.files?.length > 0 && e.target.files[0].name);
     fileInputRegistered.onChange(e);
   };
 
-  const onSubmit = async (data: PassportData) => {
-    const res = await authService.attachPassport(data);
-    if (res === true) {
-      router.back();
-      notify("Паспорт успешно привязан");
-    }
-  };
+  const onSubmit = async (data: PassportData) =>
+    dispatch(
+      attachPassport({
+        data,
+        router,
+      })
+    );
 
   return (
     <Grid
