@@ -6,7 +6,8 @@ type errorProps = {
 
 const DisplayError = ({ message }: errorProps) => (
   <Alert severity="error">
-    Ошибка: <pre style={{ display: "inline" }}>{message}</pre>
+    Ошибка:{" "}
+    <p style={{ display: "inline", fontFamily: "monospace" }}>{message}</p>
   </Alert>
 );
 
