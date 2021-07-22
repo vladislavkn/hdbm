@@ -1,5 +1,20 @@
-import { LoginPayload, PassportData, RegisterPayload, User } from "../types";
+import {
+  ID,
+  LoginPayload,
+  PassportData,
+  RegisterPayload,
+  User,
+} from "../types";
 import httpService from "./httpService";
+
+type UserDTO = {
+  haspassportdata: boolean;
+  email: string;
+  firstname: string;
+  id: ID;
+  lastname: string;
+  phone: string;
+};
 
 const authService = {
   login(payload: LoginPayload) {
@@ -18,11 +33,14 @@ const authService = {
   },
   getUser(token: string) {
     return httpService.request
-      .get<User[]>("/request-user", {
+      .get<UserDTO[]>("/request-user", {
         params: { token },
       })
       .then(httpService.catchNotStatusError)
-      .then((res) => res.data[0])
+      .then((res) => ({
+        ...res.data[0],
+        hasPassportData: res.data[0].haspassportdata,
+      }))
       .catch(httpService.handleError);
   },
   attachPassport(passportData: PassportData) {

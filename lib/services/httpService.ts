@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
-import { notify } from "../utils";
+import { toast } from "material-react-toastify";
 
 const SERVER_URL = process.env.SERVER_URL;
 
@@ -18,7 +18,7 @@ const httpService: HttpService = {
   }),
   handleError(e: AxiosError) {
     const message = e.response ? e.response.data.message : e.message;
-    notify(`Ошибка: ${message}`);
+    toast.error(`Ошибка: ${message}`);
   },
   setAuthHeader(header: string) {
     this.request.defaults.headers.common["Authorization"] = header;

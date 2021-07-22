@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { ID, Room, RoomFilterRecord } from "../types";
+import { formatDate } from "../utils";
 import httpService from "./httpService";
 
 type RoomDTO = {
@@ -21,19 +22,12 @@ const roomsService = {
     return httpService.request
       .get<RoomDTO[]>("/book", {
         params: {
-          dfrom: format(filterRecord.dateRange.startDate, "yyyy-MM-dd"),
-          dto: format(filterRecord.dateRange.endDate, "yyyy-MM-dd"),
+          dfrom: formatDate(filterRecord.dateRange.startDate),
+          dto: formatDate(filterRecord.dateRange.endDate),
           city: filterRecord.city,
           adults: filterRecord.adultPlaces,
           children: filterRecord.childPlaces,
         },
-        // params: {
-        //   dfrom: "2021-07-22",
-        //   dto: "2021-07-22",
-        //   city: "Ростов-на-Дону",
-        //   adults: 3,
-        //   children: 2,
-        // },
       })
       .then(httpService.catchNotStatusError)
       .then((res) => res.data.map(this._transformRoomDataFromDTO));

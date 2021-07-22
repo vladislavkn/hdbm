@@ -1,4 +1,6 @@
-import { ID } from "../types";
+import { AxiosResponse } from "axios";
+import { DateRange, ID } from "../types";
+import { formatDate } from "../utils";
 import httpService from "./httpService";
 
 type BookService = {
@@ -7,7 +9,7 @@ type BookService = {
     fromDate: Date,
     toDate: Date
   ) => Promise<{ isBooked: boolean; byUser: boolean }>;
-  bookRoom: (roomId: ID) => void;
+  bookRoom: (roomId: ID, dateRange: DateRange) => Promise<AxiosResponse<any>>;
   removeRoomBooking: (roomId: ID) => void;
 };
 
@@ -15,9 +17,12 @@ const bookService: BookService = {
   async checkIfRoomIsBooked(roomId, fromDate, toDate) {
     return { isBooked: false, byUser: false };
   },
-  bookRoom(roomId) {
+  bookRoom(roomId, dateRange) {
     return httpService.request
-      .post(`/book/${roomId}`)
+      .post(`/book/${roomId}`, {
+        dfrom: formatDate(dateRange.startDate),
+        dto: formatDate(dateRange.endDate),
+      })
       .then(httpService.catchNotStatusError);
   },
   removeRoomBooking(roomId) {},

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../theme";
@@ -7,9 +7,15 @@ import Head from "next/head";
 import store from "@root/lib/store";
 import { Provider } from "react-redux";
 import "@root/styles/globals.css";
-import NotificationsSnacbar from "@components/NotificationsSnacbar";
-import { tryToLoginWithSavedToken } from "@root/lib/slices/auth";
+import {
+  DEBUG_SET_USER,
+  loadLocalUser,
+  tryToLoginWithSavedToken,
+} from "@root/lib/slices/auth";
 import ErrorBoundary from "@components/ErrorBoundary";
+import DialogsProvider from "@components/Dialogs/DialogsProvider";
+import { ToastContainer } from "material-react-toastify";
+import "material-react-toastify/dist/ReactToastify.css";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -20,6 +26,9 @@ export default function MyApp(props: AppProps) {
     if (jssStyles) jssStyles.parentElement.removeChild(jssStyles);
     // Auto login
     store.dispatch(tryToLoginWithSavedToken());
+    store.dispatch(loadLocalUser());
+    // @ts-ignore
+    window.setUser = (newUser) => store.dispatch(DEBUG_SET_USER(newUser));
   }, []);
 
   return (
@@ -34,8 +43,20 @@ export default function MyApp(props: AppProps) {
         <CssBaseline />
         <ErrorBoundary>
           <Provider store={store}>
-            <Component {...pageProps} />
-            <NotificationsSnacbar />
+            <DialogsProvider>
+              <Component {...pageProps} />
+            </DialogsProvider>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
           </Provider>
         </ErrorBoundary>
       </ThemeProvider>

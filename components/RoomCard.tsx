@@ -2,16 +2,14 @@ import {
   Box,
   Card,
   CardActionArea,
-  CardContent,
   CardMedia,
   colors,
   Grid,
   makeStyles,
-  Paper,
   Theme,
   Typography,
 } from "@material-ui/core";
-import { LocationCityOutlined, LocationOnOutlined } from "@material-ui/icons";
+import { LocationOnOutlined } from "@material-ui/icons";
 import { Rating } from "@material-ui/lab";
 import { Room } from "@root/lib/types";
 import Link from "next/link";
@@ -22,25 +20,35 @@ type RoomCardProps = {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  media: {
-    minHeight: 192,
-    height: "100%",
-    borderRadius: 4,
-  },
-  content: {
+  root: {
     display: "flex",
-    maxWidth: "100%",
-    flexDirection: "column",
-    padding: theme.spacing(1),
+  },
+  photo: {
+    boxShadow: "0px 4px 40px rgba(0, 0, 0, 0.05)",
+    width: 128,
+    [theme.breakpoints.down("xs")]: {
+      width: 90,
+    },
+  },
+  greyText: {
+    color: colors.grey[500],
   },
   title: {
-    fontWeight: "bold",
+    fontWeight: 600,
   },
   rating: {
     marginRight: theme.spacing(1),
+    color: theme.palette.primary.light,
   },
-  header: {
-    marginBottom: theme.spacing(2),
+  price: {
+    color: theme.palette.primary.main,
+    fontWeight: 600,
+  },
+  locationIcon: {
+    color: theme.palette.primary.main,
+    marginRight: theme.spacing(0.5),
+    width: 20,
+    height: 20,
   },
 }));
 
@@ -53,49 +61,60 @@ const RoomCard = (props: RoomCardProps) => {
 
   return (
     <Link href={href}>
-      <CardActionArea>
-        <Grid container>
-          <Grid item xs={12} sm={5}>
-            <CardMedia image={images[0]} className={classes.media} />
-          </Grid>
-          <Grid container item xs={12} sm={7} zeroMinWidth>
-            <Box className={classes.content}>
-              <Box className={classes.header}>
-                <Typography variant="h6" className={classes.title}>
-                  {title}
-                </Typography>
-                <Grid container alignItems="stretch">
-                  <Rating
-                    value={rating}
-                    readOnly
-                    size="small"
-                    className={classes.rating}
-                  />
-                  <Typography variant="caption" color="textSecondary">
-                    {reviews}
+      <Card className={classes.root}>
+        <CardActionArea>
+          <Box display="flex">
+            <CardMedia
+              className={classes.photo}
+              image={images[0]}
+              title="Room photo"
+            />
+            <Box paddingY={2} paddingX={1.5} display="flex" flexGrow={1}>
+              <Box width="100%">
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  marginBottom={1.5}
+                >
+                  <Box display="flex" alignItems="center" marginRight={1}>
+                    <Rating
+                      className={classes.rating}
+                      color="primary"
+                      size="small"
+                      value={rating}
+                      readOnly
+                    />
+                    <Typography className={classes.greyText} variant="body2">
+                      {reviews}
+                    </Typography>
+                  </Box>
+
+                  <Typography variant="subtitle1" className={classes.price}>
+                    {price}₽/день
                   </Typography>
-                </Grid>
-              </Box>
-              <Typography variant="body1" noWrap gutterBottom>
-                {description}
-              </Typography>
-              <Grid container item>
-                <Grid container item xs={12} alignItems="center">
-                  <LocationOnOutlined color="secondary" />
-                  <Typography variant="subtitle1" color="textSecondary">
+                </Box>
+                <Box marginBottom={1.5}>
+                  <Box textOverflow="ellipsis" whiteSpace="nowrap">
+                    <Typography className={classes.title} variant="h6">
+                      {title}
+                    </Typography>
+                  </Box>
+                  <Typography className={classes.greyText} variant="body1">
+                    {description}
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center">
+                  <LocationOnOutlined className={classes.locationIcon} />
+                  <Typography className={classes.greyText} variant="body2">
                     {adress.asText}
                   </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {price} рублей
-                  </Typography>
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
             </Box>
-          </Grid>
-        </Grid>
-      </CardActionArea>
+          </Box>
+        </CardActionArea>
+      </Card>
     </Link>
   );
 };

@@ -2,7 +2,7 @@ import { TextField } from "@material-ui/core";
 import { DateRange } from "@root/lib/types";
 import { format } from "date-fns";
 import { useState } from "react";
-import DateRangeDialog from "./DateRangeDialog";
+import DateRangeDialog from "./Dialogs/DateRangeDialog";
 
 type SelectDateRangeInputProps = {
   onChange: (dateRange: DateRange) => void;
@@ -29,7 +29,7 @@ const SelectDateRangeInput = (props: SelectDateRangeInputProps) => {
       />
       <DateRangeDialog
         title="Выберите дату"
-        open={isOpen}
+        isOpen={isOpen}
         dateRange={value}
         onSubmit={onChange}
         onClose={() => setIsOpen(false)}

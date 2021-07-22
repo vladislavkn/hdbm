@@ -4,7 +4,7 @@ import { RootState } from "../store";
 import tokenService from "../services/tokenService";
 import authService from "../services/authService";
 import { NextRouter } from "next/router";
-import { notify } from "../utils";
+import { toast } from "material-react-toastify";
 
 export const fetchUser = createAsyncThunk(
   "auth/fetch-user",
@@ -69,7 +69,8 @@ export const attachPassport = createAsyncThunk(
       .then((res) => {
         if (!res) throw new Error("Passport request failed");
         router.back();
-        notify("Паспорт успешно привязан");
+        toast.success("Паспорт успешно привязан");
+        dispatch(setUserPassportData(true));
         return dispatch(fetchUser(tokenService.getAccessToken()));
       })
       .catch(() => rejectWithValue(null));
@@ -84,8 +85,21 @@ const auth = createSlice({
   },
   reducers: {
     logout(state) {
-      localStorage.removeItem("token");
+      tokenService.setAccessToken(false);
+      localStorage.removeItem("user");
       state.user = null;
+    },
+    DEBUG_SET_USER(state, action) {
+      // @ts-ignore
+      state.user = { ...state.user, ...action?.payload };
+    },
+    setUserPassportData(state, action) {
+      if (state.user) state.user.hasPassportData = action.payload;
+      localStorage.setItem("user", JSON.stringify(state.user));
+    },
+    loadLocalUser(state) {
+      const savedUser = localStorage.getItem("user");
+      if (savedUser) state.user = JSON.parse(savedUser);
     },
   },
   extraReducers: (builder) => {
@@ -95,6 +109,7 @@ const auth = createSlice({
     const onFulfilled = (state, { payload }) => {
       state.loading = false;
       state.user = payload;
+      localStorage.setItem("user", JSON.stringify(state.user));
     };
     const onRejected = (state) => {
       state.loading = false;
@@ -116,6 +131,7 @@ const auth = createSlice({
   },
 });
 
-export const { logout } = auth.actions;
+export const { logout, DEBUG_SET_USER, setUserPassportData, loadLocalUser } =
+  auth.actions;
 
 export default auth.reducer;

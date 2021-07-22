@@ -4,7 +4,7 @@ import WithAuth from "@components/WithAuth";
 import { Typography, Link } from "@material-ui/core";
 import { useSelector } from "@root/lib/hooks/typedStoreHooks";
 import { LOGIN_ROUTE } from "@root/lib/routes";
-import { notify } from "@root/lib/utils";
+import { toast } from "material-react-toastify";
 import NextLink from "next/link";
 import React, { useEffect } from "react";
 
@@ -13,9 +13,12 @@ const AttachPassport = () => {
 
   useEffect(() => {
     if (user?.hasPassportData)
-      notify("Пасспорт уже привязан. Новые данные изменят сохраненные ранее", {
-        autoHide: false,
-      });
+      toast.info(
+        "Пасспорт уже привязан. Новые данные изменят сохраненные ранее",
+        {
+          autoClose: false,
+        }
+      );
   }, [user]);
   return (
     <FormLayout title="Привязать паспорт">

@@ -47,10 +47,9 @@ export type RegisterPayload = {
 export type User = {
   firstname: string;
   lastname: string;
+  email: string;
   hasPassportData: boolean;
-  is: "tourist" | "hotelier";
   id: ID;
-  avatarUrl: string;
 };
 
 export type LoginPayload = {
@@ -71,6 +70,15 @@ export type PassportData = {
   date: Date;
   file: FileList;
 };
+
+export type DialogProps = {
+  onClose: () => void;
+  isOpen: boolean;
+};
+
+/* Utils */
+
+export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 /* Constants */
 
