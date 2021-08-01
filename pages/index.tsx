@@ -1,15 +1,13 @@
-import Layout from "@components/Layout";
-import Section from "@components/Section";
-import SearchRoomsSection from "@components/SearchRoomsSection";
-import WayCardsBundle from "@components/WayCardsBundle";
+import { PopularWays } from "@/ways";
+import { RoomsSearch } from "@/rooms";
+import { Layout } from "@/layout";
+import React from "react";
 
 export default function Home() {
   return (
     <Layout title="Travels">
-      <Section title="Популярные направления" dark>
-        <WayCardsBundle />
-      </Section>
-      <SearchRoomsSection title="Подобрать отель" />
+      <PopularWays />
+      <RoomsSearch title="Подобрать отель" />
     </Layout>
   );
 }

@@ -4,18 +4,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../theme";
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import Head from "next/head";
-import store from "@root/lib/store";
-import { Provider } from "react-redux";
 import "@root/styles/globals.css";
-import {
-  DEBUG_SET_USER,
-  loadLocalUser,
-  tryToLoginWithSavedToken,
-} from "@root/lib/slices/auth";
-import ErrorBoundary from "@components/ErrorBoundary";
 import DialogsProvider from "@components/Dialogs/DialogsProvider";
 import { ToastContainer } from "material-react-toastify";
 import "material-react-toastify/dist/ReactToastify.css";
+import { ErrorBoundary } from "@/utils";
+import { AuthProvider } from "@/auth/context/authContext";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -24,11 +18,6 @@ export default function MyApp(props: AppProps) {
     // Clear server stylesheets
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) jssStyles.parentElement.removeChild(jssStyles);
-    // Auto login
-    store.dispatch(tryToLoginWithSavedToken());
-    store.dispatch(loadLocalUser());
-    // @ts-ignore
-    window.setUser = (newUser) => store.dispatch(DEBUG_SET_USER(newUser));
   }, []);
 
   return (
@@ -42,7 +31,7 @@ export default function MyApp(props: AppProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <ErrorBoundary>
-          <Provider store={store}>
+          <AuthProvider>
             <DialogsProvider>
               <Component {...pageProps} />
             </DialogsProvider>
@@ -57,7 +46,7 @@ export default function MyApp(props: AppProps) {
               draggable
               pauseOnHover
             />
-          </Provider>
+          </AuthProvider>
         </ErrorBoundary>
       </ThemeProvider>
     </>

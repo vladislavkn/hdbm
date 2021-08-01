@@ -1,4 +1,5 @@
-import { Hotel, Room, RoomFilterRecord } from "./types";
+import { Room, RoomFilterRecord } from "@/rooms/types";
+import { Hotel } from "./types";
 
 export const fakeHotel: Hotel = {
   title: "Test hotel",

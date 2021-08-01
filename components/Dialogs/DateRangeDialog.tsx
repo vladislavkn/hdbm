@@ -1,7 +1,7 @@
+import RoomDatePicker from "@/shared/components/RoomDatePicker";
 import { makeStyles } from "@material-ui/core";
 import { DateRange } from "@root/lib/types";
-import { useState } from "react";
-import RoomDatePicker from "../RoomDatePicker";
+import React, { useState } from "react";
 import CommonDialog from "./CommonDialog";
 
 type DateRangeDialogProps = {
