@@ -71,3 +71,20 @@ export class DialogsChain {
     }
   }
 }
+
+export const isObject = (value: any) =>
+  value !== null && typeof value === "object" && typeof value !== "function";
+
+export const trimObjectDeep = <T = Record<any, any>>(value: T) => {
+  for (const key in value) {
+    const payload = value[key];
+    if (isObject(value[key]))
+      value[key] = trimObjectDeep<typeof payload>(value[key]);
+    else if (typeof value[key] === "string")
+      value[key] = (
+        value[key] as unknown as string
+      ).trim() as unknown as T[Extract<keyof T, string>];
+  }
+
+  return value;
+};

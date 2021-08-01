@@ -12,18 +12,6 @@ export const login = (options: LoginOptions) =>
 export const register = (options: RegisterOptions) =>
   http.post("/register", options).then((res) => res.data.token);
 
-export const fetchUser = (token) =>
-  http
-    .get<UserDTO[]>("/request-user", {
-      params: {
-        token,
-      },
-    })
-    .then((res) => ({
-      ...res.data[0],
-      hasPassportData: res.data[0].haspassportdata,
-    }));
-
 export const attachPassport = (options: PassportOptions) =>
   http
     .post("/add-passport", {

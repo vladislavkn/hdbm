@@ -9,6 +9,7 @@ import { LoginOptions, RegisterOptions, PassportOptions, User } from "../types";
 import * as api from "../api";
 import { removeAuthTokenHeader, setAuthTokenHeader } from "@root/lib/http";
 import { useRouter } from "next/router";
+import { parseUser } from "../utils";
 
 type AuthContext = {
   login: (options: LoginOptions) => void;
@@ -55,9 +56,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setAuthTokenHeader(token);
       localStorage.setItem("access-token", token);
-      const user = await api.fetchUser(token);
+
+      const payload = token.split(".")[1];
+      const user = parseUser(JSON.parse(atob(payload)).sub);
       localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
+
       console.info("Successfuly authenticate", user);
     } catch (e) {
       console.log(e);
