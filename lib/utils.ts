@@ -31,9 +31,9 @@ export const clamp = (value: string | number, min: number, max: number) => {
 
 export const uuid = () => crypto.randomBytes(16).toString("hex");
 
-type DialogsCallback = (resolve: (value: any) => void, value: any) => void;
-
 export const formatDate = (date: Date) => format(date, "yyyy-MM-dd");
+export const formatDateHumanReadable = (date: Date) =>
+  format(date, "dd.MM.yyyy");
 
 export const parseJwt = (token: string) => {
   var base64Url = token.split(".")[1];
