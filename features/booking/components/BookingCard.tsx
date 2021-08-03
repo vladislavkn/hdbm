@@ -27,16 +27,18 @@ const BookingCard = (props: BookingCardProps) => {
 
   return (
     <Card onClick={onClick}>
-      <CardMedia className={classes.media} image={booking.roomImageUrl} />
-      <Box paddingX={1.5} paddingY={2} component={CardActionArea}>
-        <Typography variant="h6" gutterBottom>
-          {booking.roomTitle}
-        </Typography>
-        <Typography variant="body2">
-          {formatDateHumanReadable(booking.startDate)} -{" "}
-          {formatDateHumanReadable(booking.endDate)}
-        </Typography>
-      </Box>
+      <CardActionArea>
+        <CardMedia className={classes.media} image={booking.roomImageUrl} />
+        <Box paddingX={1.5} paddingY={2}>
+          <Typography variant="h6" gutterBottom>
+            {booking.roomTitle}
+          </Typography>
+          <Typography variant="body2">
+            {formatDateHumanReadable(booking.startDate)} -{" "}
+            {formatDateHumanReadable(booking.endDate)}
+          </Typography>
+        </Box>
+      </CardActionArea>
     </Card>
   );
 };

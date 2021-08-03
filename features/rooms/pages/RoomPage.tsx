@@ -14,7 +14,7 @@ import { toast } from "material-react-toastify";
 import RoomDetails from "../components/RoomDetails";
 import SimilarRooms from "../components/SimilarRooms";
 import Loading from "@/utils/components/Loading";
-import { fetchRoomById, FETCH_ROOM_BY_ID } from "../api";
+import { bookRoom, fetchRoomById, FETCH_ROOM_BY_ID } from "../api";
 import { useAuth } from "@/auth";
 
 const today = new Date();
@@ -74,6 +74,9 @@ const RoomPage = () => {
             actionText: "Привязать",
           });
         else resolve(value);
+      })
+      .then((resolve, value) => {
+        bookRoom(id as string, value).then(() => resolve(true));
       })
       .then((resolve) =>
         open<typeof ActionDialog>(ActionDialog, {

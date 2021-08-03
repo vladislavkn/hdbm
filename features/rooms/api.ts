@@ -1,5 +1,5 @@
 import http from "@root/lib/http";
-import { ID } from "@root/lib/types";
+import { DateRange, ID } from "@root/lib/types";
 import { formatDate } from "@root/lib/utils";
 import { RoomDTO, Room, RoomFilterRecord } from "./types";
 
@@ -38,3 +38,9 @@ const transformRoomDataFromDTO = (roomDto: RoomDTO): Room => ({
   },
   id: roomDto.room_id,
 });
+
+export const bookRoom = (roomId: ID, dateRange: DateRange) =>
+  http.post("/book/" + roomId, {
+    dto: formatDate(dateRange.startDate),
+    dfrom: formatDate(dateRange.endDate),
+  });
