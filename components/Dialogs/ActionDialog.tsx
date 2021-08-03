@@ -18,6 +18,7 @@ const ActionDialog = (props: ActionDialogProps) => {
       title={title}
       isOpen={isOpen}
       onClose={onClose}
+      fullWidth
       actions={[
         {
           text: actionText,

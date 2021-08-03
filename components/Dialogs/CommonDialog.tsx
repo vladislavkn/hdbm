@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogProps,
   DialogTitle,
   IconButton,
   makeStyles,
@@ -29,7 +30,7 @@ export type CommonDialogProps = {
   children?: ReactChild | ReactChildren;
   actions?: Action[];
   contentClassName?: string;
-};
+} & Omit<DialogProps, "open" | "children">;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -40,7 +41,15 @@ const useStyles = makeStyles((theme) => ({
 
 const CommonDialog = (props: CommonDialogProps) => {
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const { children, onClose, isOpen, title, actions, contentClassName } = props;
+  const {
+    children,
+    onClose,
+    isOpen,
+    title,
+    actions,
+    contentClassName,
+    ...dialogProps
+  } = props;
   const classes = useStyles();
 
   return (
@@ -49,6 +58,7 @@ const CommonDialog = (props: CommonDialogProps) => {
       onClose={onClose}
       fullScreen={fullScreen}
       open={isOpen}
+      {...dialogProps}
     >
       {fullScreen ? (
         <>
