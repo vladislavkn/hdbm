@@ -8,6 +8,7 @@ import {
   Button,
   Divider,
   CardActions,
+  Paper,
 } from "@material-ui/core";
 import React, { useState } from "react";
 
@@ -37,160 +38,81 @@ export default function HotelierCreateRoom({
   };
 
   return (
-    <Card component="form" onSubmit={handleSubmit}>
-      <Box paddingX={1.5} paddingY={2}>
-        <Grid container spacing={2} alignItems="flex-start">
-          <Grid container spacing={2} item xs={12} md={6}>
-            <Grid item xs={12}>
-              <TextField
-                label="Название"
-                fullWidth
-                variant="outlined"
-                onChange={(e) =>
-                  setRoomData((prev) => ({
-                    ...prev,
-                    title: e.target.value,
-                  }))
-                }
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                multiline
-                label="Описание"
-                fullWidth
-                variant="outlined"
-                maxRows={5}
-                onChange={(e) =>
-                  setRoomData((prev) => ({
-                    ...prev,
-                    description: e.target.value,
-                  }))
-                }
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Город"
-                fullWidth
-                variant="outlined"
-                onChange={(e) =>
-                  setRoomData((prev) => ({
-                    ...prev,
-                    adress: {
-                      ...prev.adress,
-                      city: e.target.value,
-                    },
-                  }))
-                }
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Адрес"
-                fullWidth
-                variant="outlined"
-                onChange={(e) =>
-                  setRoomData((prev) => ({
-                    ...prev,
-                    adress: {
-                      ...prev.adress,
-                      asText: e.target.value,
-                    },
-                  }))
-                }
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                multiline
-                label="Цена"
-                type="number"
-                fullWidth
-                variant="outlined"
-                maxRows={5}
-                onChange={(e) =>
-                  setRoomData((prev) => ({
-                    ...prev,
-                    price: parseFloat(e.target.value),
-                  }))
-                }
-                required
-              />
-            </Grid>
+    <>
+      <Box marginBottom={1}>
+        <Typography variant="h6">Количество человек</Typography>
+      </Box>
+      <Box component={Paper} marginBottom={2} padding={1.5}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField label="Взрослых" fullWidth variant="outlined" required />
           </Grid>
-          <Grid
-            container
-            spacing={2}
-            item
-            xs={12}
-            md={6}
-            alignItems="flex-start"
-          >
-            <Grid item xs={12}>
-              <Typography variant="h6">Изображения</Typography>
-            </Grid>
-            {roomData.images.map((image, index) => (
-              <Grid item xs={12}>
-                <TextField
-                  label={`Изображение №${index + 1}`}
-                  fullWidth
-                  variant="outlined"
-                  value={image}
-                  onChange={(e) =>
-                    setRoomData((prev) => ({
-                      ...prev,
-                      images: prev.images.map((img, i) =>
-                        i === index ? e.target.value : img
-                      ),
-                    }))
-                  }
-                  required
-                />
-                <Box display="flex" justifyContent="flex-end">
-                  <Button
-                    color="secondary"
-                    onClick={() =>
-                      setRoomData((prev) => {
-                        prev.images.splice(index, 1);
-                        return {
-                          ...prev,
-                          images: prev.images.slice(),
-                        };
-                      })
-                    }
-                  >
-                    Удалить
-                  </Button>
-                </Box>
-              </Grid>
-            ))}
-            <Grid item xs={12}>
-              <Button
-                onClick={() =>
-                  setRoomData((prev) => ({
-                    ...prev,
-                    images: [...prev.images, ""],
-                  }))
-                }
-                color="primary"
-              >
-                Добавить
-              </Button>
-            </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField label="Детей" fullWidth variant="outlined" required />
           </Grid>
         </Grid>
       </Box>
-      <Divider />
-      <CardActions>
-        <Button variant="contained" color="primary" type="submit">
-          Сохранить
-        </Button>
-      </CardActions>
-    </Card>
+      <Box marginBottom={1}>
+        <Typography variant="h6">Город и адрес</Typography>
+      </Box>
+      <Box component={Paper} marginBottom={2} padding={1.5}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField label="Город" fullWidth variant="outlined" required />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField label="Адрес" fullWidth variant="outlined" required />
+          </Grid>
+        </Grid>
+      </Box>
+      <Box marginBottom={1}>
+        <Typography variant="h6">Название и цена</Typography>
+      </Box>
+      <Box component={Paper} marginBottom={2} padding={1.5}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField label="Название" fullWidth variant="outlined" required />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField label="Цена" fullWidth variant="outlined" required />
+          </Grid>
+        </Grid>
+      </Box>
+      <Box marginBottom={1}>
+        <Typography variant="h6">Описание</Typography>
+      </Box>
+      <Box component={Paper} marginBottom={2} padding={1.5}>
+        <TextField
+          multiline
+          label="Описание"
+          fullWidth
+          variant="outlined"
+          maxRows={5}
+        />
+      </Box>
+      <Box marginBottom={1}>
+        <Typography variant="h6">Изображения</Typography>
+      </Box>
+      <Box component={Paper} marginBottom={2} padding={1.5}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={8} sm={4}>
+            <TextField
+              label="Изображение"
+              fullWidth
+              variant="outlined"
+              required
+            />
+          </Grid>
+          <Grid item xs={4} sm={2}>
+            <Button>Удалить изображение</Button>
+          </Grid>
+        </Grid>
+      </Box>
+      <Box display="flex" alignItems="center" justifyContent="flex-end">
+        <Button>Добавить изображение</Button>
+        <Button>Закончить позже</Button>
+        <Button color="primary">Добавить номер</Button>
+      </Box>
+    </>
   );
 }
