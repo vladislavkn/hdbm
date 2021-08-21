@@ -92,7 +92,7 @@ export default function HotelierCreateRoom({
       </Box>
       <Box component={Paper} marginBottom={2} padding={1.5}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={8} sm={4}>
+          <Grid item xs={12} sm={8} md={4}>
             <TextField
               label="Изображение"
               fullWidth
@@ -100,7 +100,7 @@ export default function HotelierCreateRoom({
               required
             />
           </Grid>
-          <Grid item xs={4} sm={2}>
+          <Grid item xs={12} sm={4} md={2}>
             <Button>Удалить изображение</Button>
           </Grid>
         </Grid>
