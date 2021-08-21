@@ -1,13 +1,10 @@
 import { Room } from "@/rooms/types";
 import {
-  Card,
   Box,
   Grid,
   TextField,
   Typography,
   Button,
-  Divider,
-  CardActions,
   Paper,
 } from "@material-ui/core";
 import React, { useState } from "react";
