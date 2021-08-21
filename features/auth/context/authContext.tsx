@@ -16,6 +16,8 @@ type AuthContext = {
   register: (options: RegisterOptions) => void;
   attachPassport: (options: PassportOptions) => void;
   logout: () => void;
+  revalidateUser: () => void;
+  detachPassport: () => void;
   loading: boolean;
   user: User;
 };
@@ -25,6 +27,8 @@ const authContext = createContext<AuthContext>({
   register: () => {},
   attachPassport: () => {},
   logout: () => {},
+  revalidateUser: () => {},
+  detachPassport: () => {},
   loading: false,
   user: null,
 });
@@ -44,14 +48,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const savedToken = localStorage.getItem("access-token");
       if (savedUser && savedToken) {
         setUser(JSON.parse(savedUser));
-        Authenticate(savedToken);
+        authenticate(savedToken);
       } else {
         logout();
       }
     }
   }, []);
 
-  const Authenticate = async (token: string) => {
+  const authenticate = async (token: string) => {
     setLoading(true);
     try {
       setAuthTokenHeader(token);
@@ -69,11 +73,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setLoading(false);
   };
 
+  const revalidateUser = async () => {
+    setLoading(true);
+    try {
+      const oldToken = localStorage.getItem("access-token");
+      if (!oldToken) throw new Error("User is not authenticated");
+      const { token } = await api.revalidateToken(oldToken);
+      authenticate(token);
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
+
   const login: AuthContext["login"] = async (options) => {
     setLoading(true);
     try {
       const token = await api.login(options);
-      Authenticate(token);
+      authenticate(token);
       push("/");
     } catch (e) {
       console.log(e);
@@ -85,7 +102,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setLoading(true);
     try {
       const token = await api.register(options);
-      Authenticate(token);
+      authenticate(token);
     } catch (e) {
       console.log(e);
     }
@@ -98,9 +115,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const isOk = await api.attachPassport(options);
       if (isOk) {
         setUser((user) => ({ ...user, hasPassportData: true }));
-        Authenticate(localStorage.getItem("access-token"));
+        authenticate(localStorage.getItem("access-token"));
         push("/auth/profile");
+        revalidateUser();
       }
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
+
+  const detachPassport = async () => {
+    setLoading(true);
+    try {
+      await api.detachPassport();
+      await revalidateUser();
     } catch (e) {
       console.log(e);
     }
@@ -118,9 +147,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     <authContext.Provider
       value={{
         login,
+        detachPassport,
         register,
         logout,
         user,
+        revalidateUser,
         attachPassport,
         loading,
       }}

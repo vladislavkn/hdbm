@@ -1,10 +1,6 @@
 import http from "@root/lib/http";
-import {
-  LoginOptions,
-  PassportOptions,
-  RegisterOptions,
-  UserDTO,
-} from "./types";
+import { toast } from "material-react-toastify";
+import { LoginOptions, PassportOptions, RegisterOptions } from "./types";
 
 export const login = (options: LoginOptions) =>
   http.post("/login", options).then((res) => res.data.token);
@@ -21,3 +17,14 @@ export const attachPassport = (options: PassportOptions) =>
       gov: options.provider,
     })
     .then(() => true);
+
+export const detachPassport = () =>
+  http.delete("/delete-passport").then((res) => {
+    if (res.data.res !== "ok") throw new Error("Ошибка при удалении паспорта");
+    else toast.success("Паспорт успешно отвязан");
+  });
+
+export const revalidateToken = (token: string) =>
+  http
+    .post<{ token: string }>("/update-token", { token })
+    .then((res) => res.data);

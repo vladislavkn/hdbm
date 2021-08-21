@@ -20,6 +20,7 @@ import {
 import { User } from "../types";
 import { useRouter } from "next/router";
 import React from "react";
+import { useAuth } from "..";
 
 type DocumentsWidgetProps = {
   user: User;
@@ -29,6 +30,7 @@ const DocumentsWidget = ({ user }: DocumentsWidgetProps) => {
   const theme = useTheme();
   const shouldBeDense = useMediaQuery(theme.breakpoints.down("sm"));
   const router = useRouter();
+  const { detachPassport } = useAuth();
 
   return (
     <Card>
@@ -56,11 +58,13 @@ const DocumentsWidget = ({ user }: DocumentsWidgetProps) => {
                   <AttachFileOutlined />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Отвязать паспорт">
-                <IconButton edge="end">
-                  <DeleteOutlineOutlined />
-                </IconButton>
-              </Tooltip>
+              {user.hasPassportData && (
+                <Tooltip title="Отвязать паспорт">
+                  <IconButton edge="end" onClick={detachPassport}>
+                    <DeleteOutlineOutlined />
+                  </IconButton>
+                </Tooltip>
+              )}
             </ListItemSecondaryAction>
           </ListItem>
         </List>
