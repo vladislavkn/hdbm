@@ -49,7 +49,7 @@ const Section = (props: SectionProps) => {
       <Container>
         <Grid
           container
-          justify="space-between"
+          justifyContent="space-between"
           alignItems="center"
           className={classes.header}
         >
